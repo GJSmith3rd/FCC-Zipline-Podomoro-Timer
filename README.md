@@ -1,5 +1,5 @@
 # GJSmith3rd/FCC-Zipline-Pomodoro-Timer
-[FreeCodeCamp Zipline Podomor-Timer](https://github.com/GJSmith3rd/FCC-Zipline-Pomodoro-Timer)
+[FreeCodeCamp Zipline Pomodoro-Timer](https://github.com/GJSmith3rd/FCC-Zipline-Pomodoro-Timer)
 --------------------------------
 FreeCodeCamp, Zipline Project, Pomodoro Timer.
 
