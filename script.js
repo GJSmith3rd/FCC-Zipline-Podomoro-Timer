@@ -43,6 +43,6 @@ function updateHTML(res) {
   //   $('#tweetDiv').append(tweetA);
   //   $.getScript('https://platform.twitter.com/widgets.js');
 
-  }
+  //}
 
 }
