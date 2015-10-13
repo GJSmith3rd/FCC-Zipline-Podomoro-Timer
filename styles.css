@@ -1,13 +1,13 @@
 h1 {
-  font-family: 'Oleo Script Swash Caps', cursive;;
+  font-family: 'Orbitron', serif;;
   font-weight: 700;
-  color: red;
-  text-shadow: 2px 1px 2px red;
+  color: firebrick !important;
+  text-shadow: 2px 1px 2px forestgreen;
 }
 h2 {
-  font-family: 'Dancing Script', cursive;;
-  color: orange;
-  text-shadow: 2px 1px 2px black;
+  font-family: 'Petrona', sans-serif;;
+  color: darkgreen;
+  text-shadow: 2px 1px 2px darkred;
 }
 h3 {
   font-family: 'Open Sans', sans-serif;;
@@ -89,50 +89,43 @@ p {
   background-color: lightgrey;
 }
 .navbar-brand {
-  font-family: 'Oleo Script Swash Caps', cursive;;
-  color: firebrick !important;
+  font-family: 'Orbitron', serif;;
+  color: forestgreen !important;
 }
 .navbar-brand:hover {
-  color: forestgreen !important;
-}
-ul.nav li a {
-  font-family: 'Dancing Script', cursive;;
   color: firebrick !important;
 }
-ul.nav li a:hover {
+ul.nav li a {
+  font-family: 'Petrona', sans-serif;;
   color: forestgreen !important;
+}
+ul.nav li a:hover {
+  color: firebrick !important;
   background-color: lightgrey !important;
 }
 .footer {
   padding-top: 25px;
 }
 .footer a {
-  font-family: 'Dancing Script', cursive;;
+  font-family: 'Petrona', sans-serif;;
   padding-right: 10px;
   padding-left: 10px;
-  color: firebrick;
+  color: forestgreen;
   margin-top: 25px;
 }
 .footer a:hover {
-  color: forestgreen;
+  color: firebrick;
   text-decoration: none;
 }
 #footer {
-  font-family: 'Oleo Script Swash Caps', cursive;;
+  font-family: 'Orbitron', serif;;
   padding-top: 15px;
   padding-left: 10px;
   font-size: 10px;
-  color: firebrick;
-}
-.home {
-  display: table;
-  position: relative;
-  width: 100%;
-  background-size: cover;
-  padding-top: 35px;
+  color: forestgreen;
 }
 .jumbotron {
-  margin-top: 70px;
+  margin-top: 55px;
 }
 #link {
   color: orange;

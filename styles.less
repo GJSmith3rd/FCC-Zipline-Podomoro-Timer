@@ -1,20 +1,20 @@
-//@import url(https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps:400,700|Dancing+Script:400,700);
+//@import url(https://fonts.googleapis.com/css?family=Petrona|Orbitron:400,500,700,900);;
 
-@mainFont: ~"'Oleo Script Swash Caps', cursive;";
-@accentFont: ~"'Dancing Script', cursive;";
+@mainFont: ~"'Orbitron', serif;";
+@accentFont: ~"'Petrona', sans-serif;";
 @textFont: ~"'Open Sans', sans-serif;";
 
-@h1Color: red;
-@h1ShadowColor: red;
+@h1Color: firebrick;
+@h1ShadowColor: forestgreen;
 
-@h2Color: orange;
-@h2ShadowColor: black;
+@h2Color: darkgreen;
+@h2ShadowColor: darkred;
 
 @h3Color: darkgreen;
 @h3ShadowColor: darkgrey;
 
-@navColor: firebrick;
-@navColorHover: forestgreen;
+@navColor: forestgreen;
+@navColorHover: firebrick;
 @navBackgroundColor: #E7E7E7;
 @navBackgroundColorHover: lightgrey;
 
@@ -62,7 +62,7 @@
 h1 {
 	font-family: @mainFont;
 	font-weight: 700;
-	color: @h1Color;
+	color: @h1Color !important;
 	text-shadow: 2px 1px 2px @h1ShadowColor;
 }
 h2 {
@@ -187,17 +187,10 @@ ul.nav li a {
 	color: @navColor;
 
 }
-.home {
-	display: table;
-	// background: url(http://i.imgur.com/9PTZ4iW.png) no-repeat center center fixed;
-	// height:1000px;
-	position: relative;
-	width: 100%;
-	background-size: cover;
-	padding-top: 35px;
-}
+
 .jumbotron {
-	margin-top: 70px;
+	// padding-top: 5;
+	margin-top: 55px;
 }
 #link {
 	color: @textColor;
