@@ -1,8 +1,8 @@
 h1 {
   font-family: 'Oleo Script Swash Caps', cursive;;
   font-weight: 700;
-  color: darkorange;
-  text-shadow: 2px 1px 2px orange;
+  color: #d9edf7;
+  text-shadow: 2px 1px 2px #337ab7;
 }
 h2 {
   font-family: 'Dancing Script', cursive;;
@@ -90,17 +90,17 @@ p {
 }
 .navbar-brand {
   font-family: 'Oleo Script Swash Caps', cursive;;
-  color: darkgreen !important;
+  color: #337ab7 !important;
 }
 .navbar-brand:hover {
-  color: darkorange !important;
+  color: #333333 !important;
 }
 ul.nav li a {
   font-family: 'Dancing Script', cursive;;
-  color: darkgreen !important;
+  color: #337ab7 !important;
 }
 ul.nav li a:hover {
-  color: darkorange !important;
+  color: #333333 !important;
   background-color: lightgrey !important;
 }
 .footer {
@@ -110,11 +110,11 @@ ul.nav li a:hover {
   font-family: 'Dancing Script', cursive;;
   padding-right: 10px;
   padding-left: 10px;
-  color: darkgreen;
+  color: #337ab7;
   margin-top: 25px;
 }
 .footer a:hover {
-  color: darkorange;
+  color: #333333;
   text-decoration: none;
 }
 #footer {
@@ -122,7 +122,7 @@ ul.nav li a:hover {
   padding-top: 15px;
   padding-left: 10px;
   font-size: 10px;
-  color: darkgreen;
+  color: #337ab7;
 }
 .home {
   display: table;
