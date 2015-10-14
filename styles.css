@@ -125,7 +125,8 @@ ul.nav li a:hover {
   color: forestgreen;
 }
 .jumbotron {
-  margin-top: 55px;
+  padding-top: 55;
+  margin-top: 75px;
 }
 #link {
   color: orange;
