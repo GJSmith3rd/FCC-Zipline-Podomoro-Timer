@@ -11,7 +11,7 @@
 @h2ShadowColor: darkred;
 
 @h3Color: darkgreen;
-@h3ShadowColor: darkgrey;
+@h3ShadowColor: limegreen;
 
 @navColor: forestgreen;
 @navColorHover: firebrick;
@@ -39,7 +39,7 @@
 @h2-font-size--small: @h2-font-size--medium - 10;
 @h2-font-size--xsmall: @h2-font-size--small - 10;
 
-@h3-font-size--xlarge: 36px;
+@h3-font-size--xlarge: 66px;
 @h3-font-size--large: @h3-font-size--xlarge - 5;
 @h3-font-size--medium: @h3-font-size--large - 5;
 @h3-font-size--small: @h3-font-size--medium - 5;
@@ -64,6 +64,11 @@ h1 {
 	font-weight: 700;
 	color: @h1Color !important;
 	text-shadow: 2px 1px 2px @h1ShadowColor;
+	&:span {
+		&:img {
+			width: 50%;
+		}
+	}
 }
 h2 {
 	font-family: @accentFont;
@@ -187,11 +192,20 @@ ul.nav li a {
 	color: @navColor;
 
 }
-
 .jumbotron {
-	padding-top: 55;
-	margin-top: 75px;
+	//padding-top: 55;
+	margin-top: 65px;
+	background-image: url(http://i.imgur.com/IeZm7MT.jpg);
+	display: table;
+	//background-image: url(http://i.imgur.com/AIucynO.jpg) no-repeat center center fixed;
+	//height:425px;
+	position: relative;
+	width: 100%;
+	background-size: cover;
+	// margin-top: 50px;
+	//padding-top: 150px;
 }
+
 #link {
 	color: @textColor;
 	text-shadow: 1px 1px 1px @textShadowColor;

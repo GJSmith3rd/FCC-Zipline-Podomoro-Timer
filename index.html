@@ -128,7 +128,10 @@
     <div class="jumbotron jumbotron-success text-center">
 
       <h1>Pomodoro</h1>
-      <div></div>
+      <h3>
+        <span id="timerClock">25:00</span>
+        <span id="labelText">SET 1</span>
+      </h3>
 
       <h2>Timer</h2>
 
@@ -137,9 +140,41 @@
   <!--/.jumbotron text-center -->
   <!--/.jumbotron -->
 
+
+
+
+  <!-- Reset Button -->
+  <div class="row text-center container-fluid">
+    <div class="col-lg-12">
+
+      <ol class="breadcrumb">
+        <li class="active">Start/Reset
+        </li>
+      </ol>
+
+    </div>
+  </div>
+  <!-- /.row -->
+
+
   <div id="page-wrapper">
 
     <div class="container-fluid">
+
+      <!--  Presets-->
+      <div class="row text-center">
+        <div class="col-lg-12">
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">PRESETS</h3>
+            </div>
+            <div class="panel-body">
+              <div id="morris-area-chart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
 
       <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -151,7 +186,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge">26</div>
-                  <div>Student</div>
+                  <div>Undergraduate</div>
                 </div>
               </div>
             </div>
@@ -200,7 +235,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge">124</div>
-                  <div>Expert</div>
+                  <div>Master</div>
                 </div>
               </div>
             </div>
@@ -224,7 +259,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge">13</div>
-                  <div>Jedi</div>
+                  <div>Doctor</div>
                 </div>
               </div>
             </div>
@@ -240,43 +275,18 @@
       </div>
       <!-- /.row -->
 
+
+
       <!--  Presets-->
       <div class="row text-center">
         <div class="col-lg-12">
           <div class="panel panel-danger">
             <div class="panel-heading">
-              <h3 class="panel-title">PRESETS</h3>
+              <h3 class="panel-title">CUSTOM</h3>
             </div>
             <div class="panel-body">
               <div id="morris-area-chart"></div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <!-- Reset Button -->
-      <div class="row text-center">
-        <div class="col-lg-12">
-
-          <ol class="breadcrumb">
-            <li class="active">
-              <i class="fa fa-refresh"></i> Reset Timer
-            </li>
-          </ol>
-
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <div class="alert alert-danger alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-
-            <i class="fa fa-info-circle"></i>
-            <strong>Want to know more about Pomodoro?</strong> Check out <a href="https://en.wikipedia.org/wiki/Time_management#Pomodoro" class="alert-link" target="_blank">Wikipedia </a> for additional info!
-
           </div>
         </div>
       </div>
@@ -293,7 +303,7 @@
             <div class="panel-body">
               <div id="morris-donut-chart"></div>
               <div class="text-center">
-                <a href="#">14 SESSIONS = 1 SET</a>
+                <a href="#">- 2 +</a>
               </div>
             </div>
           </div>
@@ -301,7 +311,7 @@
         <div class="col-lg-3">
           <div class="panel panel-default">
             <div class="panel-heading text-center">
-              <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>BREAK BETWEEN SESSIONS</h3>
+              <h3 class="panel-title">BREAK BETWEEN SESSIONS</h3>
             </div>
             <div class="panel-body">
 
@@ -343,7 +353,18 @@
         </div>
         <!-- /.row -->
 
+        <div class="row container-fluid">
+          <div class="col-lg-12 text-center">
+            <div class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
+              <i class="fa fa-info-circle"></i>
+              <strong>Want to know more about Pomodoro?</strong> Check out <a href="https://en.wikipedia.org/wiki/Time_management#Pomodoro" class="alert-link" target="_blank">Wikipedia </a> for additional info!
+
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
 
       </div>
       <!-- /.container-fluid -->
