@@ -1,48 +1,46 @@
 /* global $ */
+
 $(document).ready(function() {
 
 });
 
-function getData() {
+var worker = null;
 
-  // $.ajax({
-  //   cache: true,
-  //   type: 'POST',
-  //   crossDomain: true,
-  //   url: 'http://api.forismatic.com/api/1.0/',
-  //   data: {
-  //     method: 'getQuote',
-  //     format: 'jsonp',
-  //     lang: 'en'
-  //   },
-  //   dataType: 'jsonp',
-  //   jsonp: 'jsonp',
-  //   jsonpCallback: 'updateHTML'
-  // });
-
+function createWorkers() {
+  if (worker === null) {
+    // this needs to be in a different file
+    // worker always has to have a separate file
+    worker = new Worker('worker.js');
+  }
+  // add a listener here. this is needed, if you receive any data from the worker thread, you can handle it here
+  worker.addEventListener('message', function(e) {
+    // I am using -1 to indicate that the timer has finished, you can  use anything you want.
+    if (parseInt(e.data) === -1) {
+      alert('Your time is finished');
+      // exit the thread
+      $('#polling').trigger('click');
+    } else {
+      // update your timer text here. This is used to display the countdown timer
+      $('#timer span').text(e.data);
+    }
+  }, false);
 }
 
-function updateHTML(res) {
-
-  // $('#quote').text(res.quoteText);
-  // $('#author').text(res.quoteAuthor);
-  // $('#link').attr('href', res.quoteLink);
-  //
-  // var combinedQuote = res.quoteAuthor + ' - ' + res.quoteText;
-  //
-  // if (combinedQuote.length > 140) {
-  //
-  //   $('#tweetDiv').empty();
-  //
-  // } else {
-  //
-  //   $('#tweetDiv').empty();
-  //   var tweetA = '<a id="tweet" class="btn btn-default btn-xs btn-success" ';
-  //   tweetA += 'href="https://twitter.com/intent/tweet?text=' + combinedQuote.replace(/ /g, '+');
-  //   tweetA += '" target="_blank" class="col-xs-6" role="button">Tweet</a>';
-  //   $('#tweetDiv').append(tweetA);
-  //   $.getScript('https://platform.twitter.com/widgets.js');
-
-  //}
-
-}
+$(document).on('click', '#startTimer', function() {
+  // create the workers here
+  createWorkers();
+  $.ajax({
+    url: '',
+    type: 'GET',
+    data: getData,
+    success: function(data, textStatus, jqXHR) {
+      if (data.data) {
+        // convert minutes into proper format
+        var min = $('#timer').val() + ':00';
+        var totalTime = $('#timer').val();
+        // send a message
+        worker.postMessage('timer:' + totalTime);
+      }
+    }
+  });
+});
