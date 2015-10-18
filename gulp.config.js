@@ -5,8 +5,8 @@ module.exports = function () {
                 //JavaScript - all js to vet
                 alljs: [
                         'app.js',
-                        'script.js',
-                        'worker.js'
+                        'script.js'
+                        //'worker.js'
                 ],
 
                 browserReloadDelay: 3000,
