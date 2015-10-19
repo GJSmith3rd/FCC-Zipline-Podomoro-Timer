@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
 
+  var $clock = $('.timer');
   var d1 = new Date();
   var d2 = new Date();
   var sess = 25;
@@ -9,21 +10,36 @@ $(document).ready(function () {
 
   console.log(d1);
   console.log(d2);
-  
-  setTimers();
+
   startTimer();
 
-function startTimer(){
-$('.timer').countdown(d2, function (event) {
-    
-    $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec')
-      );
+  function startTimer() {
+
+    $($clock).countdown(d2, function (event) {
+      $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec')
+        );
+    });
+
+  }
+
+  function preset25Minutes() {
+    var d1 = new Date();
+    var d2 = new Date();
+    var sess = 25;
+    return d2.setMinutes(d1.getMinutes() + sess);
+
+  }
+
+  $('#timer-reset').click(function () {
+    $clock.countdown(preset25Minutes());
   });
-}  
 
-function setTimers(){ 
+  $('#timer-pause').click(function () {
+    $clock.countdown('pause');
+  });
 
-}
+  $('#timer-resume').click(function () {
+    $clock.countdown('resume');
+  });
 
 });
-
