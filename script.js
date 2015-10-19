@@ -32,14 +32,25 @@ $(document).ready(function () {
 
   $('#timer-reset').click(function () {
     $clock.countdown(preset25Minutes());
+    $('#timer-resume').removeClass('disabled');
+    $('#timer-resume').removeClass('active');
+    $('#timer-pause').removeClass('disabled');
+    $('#timer-pause').removeClass('active');
+
   });
 
   $('#timer-pause').click(function () {
     $clock.countdown('pause');
+    $(this).addClass('disabled');
+    $('#timer-resume').removeClass('disabled');
+
   });
 
   $('#timer-resume').click(function () {
     $clock.countdown('resume');
+    $(this).addClass('disabled');
+    $('#timer-pause').removeClass('disabled');
+
   });
 
 });
