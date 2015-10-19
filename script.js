@@ -3,19 +3,18 @@
 $(document).ready(function () {
 
   var $clock = $('.timer');
-  var d1 = new Date();
-  var d2 = new Date();
+  var currentTime = new Date();
+  var timerTime = new Date();
+
   var sess = 25;
-  d2.setMinutes(d1.getMinutes() + sess);
 
-  console.log(d1);
-  console.log(d2);
+  timerTime.setMinutes(currentTime.getMinutes() + sess);
 
-  startTimer();
+  defaultTimer();
 
-  function startTimer() {
+  function defaultTimer() {
 
-    $($clock).countdown(d2, function (event) {
+    $($clock).countdown(timerTime, function (event) {
       $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec')
         );
     });
