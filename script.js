@@ -5,7 +5,6 @@ $(document).ready(function () {
   var d1 = new Date();
   var d2 = new Date();
   var sess = 25;
-
   d2.setMinutes(d1.getMinutes() + sess);
 
   console.log(d1);
