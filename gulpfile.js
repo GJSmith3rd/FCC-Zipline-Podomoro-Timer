@@ -30,7 +30,12 @@ gulp.task('css-prep', ['clean-dev'], function () {
         .src(config.less)
         .pipe($.plumber())
         .pipe($.less())
-        .pipe($.autoprefixer({ browsers: ['last 2 version', '> 5%'] }))
+        .pipe($.uncss({
+            html: ['index.html']
+        }))
+        .pipe($.autoprefixer({
+            browsers: ['last 2 version', '> 5%'] }))
+        .pipe($.cssnano())
         .pipe(gulp.dest(config.root));
 });
 
