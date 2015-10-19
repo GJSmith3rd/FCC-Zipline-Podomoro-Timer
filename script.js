@@ -15,6 +15,7 @@ $(document).ready(function () {
   function defaultTimer() {
 
     $($clock).countdown(timerTime, function (event) {
+      $('#timer-resume').addClass('disabled');
       $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec')
         );
     });
