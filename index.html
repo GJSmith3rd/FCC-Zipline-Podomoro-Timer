@@ -131,35 +131,36 @@
     <div class="jumbotron jumbotron-success text-center">
 
       <h1>Pomodoro</h1>
-      <h3>
-          <!--<span>-->
-            <div class="timer" id="resetTimer" data-seconds-left="1500" value=""></div>
-            <div id="labelText">Set 1</div>
-          <!--</span>-->
-        </h3>
+
+      <h3><div class="timer" id="resetTimer" data-seconds-left="1500"></div></h3>
+
+      <h3><div id="labelText">Set 1</div></h3>
+
       <h2>Timer</h2>
 
     </div>
+    <!--end jumbotron -->
   </div>
-  <!--/.jumbotron text-center -->
-  <!--/.jumbotron -->
+  <!--container-fluid -->
+
 
   <!-- begin main container-->
   <div class="container-fluid">
 
     <div id="page-wrapper">
-
-
+      
+      <!--begin default button row-->
       <div class="row test-center start-buttons">
         <div class="col-lg-12">
           <div class="panel panel-default">
-
 
             <div class="panel-body">
 
               <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
+                <!--begin btn-group-->
                 <div class="btn-group" role="group">
+
                   <button id="timer-reset" type="button" class="btn btn-success btn-lg">
                     <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
                   </button>
@@ -176,25 +177,26 @@
                     <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                   </button>
                 </div>
-              </div>
-            </div>
 
+              </div>
+              <!--end btn-group-->
+            </div>
+            <!--end panel-body-->
+
+            <!--begin panel-heading-->
             <div class="panel-heading text-center">
               <h3 class="panel-title">RESET / PAUSE / RESUME</h3>
             </div>
+            <!--end panel-heading-->
 
           </div>
-
-
-
-
+          <!--end panel-->
         </div>
-
+        <!--end col-->
       </div>
-      <!--</div>-->
       <!-- /.row -->
 
-      <!--  Presets-->
+      <!--Presets-->
       <div class="row text-center">
         <div class="col-lg-12">
           <div class="panel panel-danger">
@@ -316,15 +318,16 @@
           <div class="row text-center">
             <div class="col-lg-12">
               <div class="panel panel-danger">
-                <div class="panel-heading">
-                  <div class="panel-heading"><span class="pull-left clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                <div class="panel-heading ">
+                  <div class="panel-heading">
+                    <span class="pull-left clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 
                     <h3 class="panel-title">CUSTOM</h3>
 
                     <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                   </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body ">
                   <div class="row test-center">
                     <div class="col-lg-3">
                       <div class="panel panel-default">
