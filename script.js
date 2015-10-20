@@ -2,6 +2,44 @@
 
 $(document).ready(function () {
 
+  $(document).on('click', '.panel-heading span.clickable', function (e) {
+    var $this = $(this);
+
+    if (!$this.hasClass('panel-collapsed')) {
+
+      $this.parents('.panel')
+        .find('.panel-body')
+        .slideUp();
+
+      $this.siblings('.clickable')
+        .addBack()
+        .addClass('panel-collapsed');
+
+      $this.siblings('.clickable')
+        .addBack()
+        .find('i')
+        .removeClass('glyphicon-chevron-up')
+        .addClass('glyphicon-chevron-down');
+
+    } else {
+
+      $this.parents('.panel')
+        .find('.panel-body')
+        .slideDown();
+
+      $this.siblings('.clickable')
+        .addBack()
+        .removeClass('panel-collapsed');
+
+      $this.siblings('.clickable')
+      .addBack()
+        .find('i')
+        .removeClass('glyphicon-chevron-down')
+        .addClass('glyphicon-chevron-up');
+
+    }
+  });
+
   var $clock = $('.timer');
   var currentTime = new Date();
   var timerTime = new Date();
