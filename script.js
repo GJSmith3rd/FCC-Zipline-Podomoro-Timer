@@ -2,11 +2,49 @@
 
 $(document).ready(function () {
 
-  $(document).on('click', '.panel-heading span.clickable', function (e) {
+  var $clock = $('.timer');
+  var currentTime = new Date();
+  var timerTime = new Date();
+
+  var sess = 25;
+
+  timerTime.setMinutes(currentTime.getMinutes() + sess);
+
+  defaultTimer();
+
+  (function () {
+
+    $('.panel')
+      .find('.panel-body')
+      .slideUp();
+
+    $('.panel').siblings('.clickable')
+      .addBack()
+      .addClass('panel-collapsed');
+
+    $('.panel').siblings('.clickable')
+      .addBack()
+      .find('i')
+      .removeClass('glyphicon-chevron-up')
+      .addClass('glyphicon-chevron-down');
+
+  })();
+
+  $(document).on('click', '.panel-heading, clickable', function (e) {
+
     var $this = $(this);
 
     if (!$this.hasClass('panel-collapsed')) {
 
+      panelClosed();
+
+    } else {
+
+      panelOpen();
+
+    }
+
+    function panelClosed() {
       $this.parents('.panel')
         .find('.panel-body')
         .slideUp();
@@ -20,9 +58,9 @@ $(document).ready(function () {
         .find('i')
         .removeClass('glyphicon-chevron-up')
         .addClass('glyphicon-chevron-down');
+    }
 
-    } else {
-
+    function panelOpen() {
       $this.parents('.panel')
         .find('.panel-body')
         .slideDown();
@@ -32,23 +70,13 @@ $(document).ready(function () {
         .removeClass('panel-collapsed');
 
       $this.siblings('.clickable')
-      .addBack()
+        .addBack()
         .find('i')
         .removeClass('glyphicon-chevron-down')
         .addClass('glyphicon-chevron-up');
-
     }
+
   });
-
-  var $clock = $('.timer');
-  var currentTime = new Date();
-  var timerTime = new Date();
-
-  var sess = 25;
-
-  timerTime.setMinutes(currentTime.getMinutes() + sess);
-
-  defaultTimer();
 
   function defaultTimer() {
 
