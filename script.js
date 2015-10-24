@@ -18,11 +18,11 @@ $(document).ready(function () {
       .find('.panel-body')
       .slideUp();
 
-    $('.panel').siblings('.clickable')
+    $('.panel').children('.clickable')
       .addBack()
       .addClass('panel-collapsed');
 
-    $('.panel').siblings('.clickable')
+    $('.panel').children('.clickable')
       .addBack()
       .find('i')
       .removeClass('glyphicon-chevron-up')
