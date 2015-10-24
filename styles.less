@@ -210,7 +210,13 @@ ul.nav li a {
 	color: @textColor;
 	text-shadow: 1px 1px 1px @textShadowColor;
 }
-.panel-heading > span.pull-right {
+
+.panel-heading {
 	font-size: 15px;
+	& > span.pull-right {
 	margin-top: -20px;
+	}
+	& > span.main-control {
+	margin-top: -10px;
+	}
 }
