@@ -3,17 +3,78 @@
 $(document).ready(function () {
 
   var $clock = $('.timer');
-  var currentTime = new Date();
-  var timerTime = new Date();
 
-  var sess = 25;
+  var sessTime = 3;
+  var sessBreak = 2;
+  var setTime = 1;
+  var setBreak = 2;
 
-  timerTime.setMinutes(currentTime.getMinutes() + sess);
+  //invoke pomodor timer bases on variables
 
-  defaultTimer();
+  setPomodoro(sessTime, sessBreak, setTime, setBreak);
 
+  function setPomodoro(sessTime, sessBreak, setTime, setBreak) {
+
+    setClock(setTime);
+
+    /*calculate sessions and breaks
+      and set clock
+    */
+    function setClock(clockTime) {
+
+      // set timer variables
+
+      var currentTime = new Date();
+      var timerTime = new Date();
+
+      //  compute session time
+      timerTime.setMinutes(currentTime.getMinutes() + clockTime);
+
+      $($clock).countdown(timerTime)
+        .on('update.countdown', function (event) {
+          $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
+        })
+
+        .on('finish.countdown', function (event) {
+          $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
+        });
+
+      // .on('stop.countdown', function (event) {
+
+      // });
+
+      $('#timer-resume').addClass('disabled');
+
+    }
+
+    function setTimers() {
+      var d1 = new Date();
+      var d2 = new Date();
+      return d2.setMinutes(d1.getMinutes() + sessTime);
+    }
+
+    $('#timer-reset').click(function () {
+      $clock.countdown(setTimers());
+      $('#timer-resume').removeClass('disabled');
+      $('#timer-resume').removeClass('active');
+      $('#timer-pause').removeClass('disabled');
+      $('#timer-pause').removeClass('active');
+    });
+
+    $('#timer-pause').click(function () {
+      $clock.countdown('pause');
+      $(this).addClass('disabled');
+      $('#timer-resume').removeClass('disabled');
+    });
+
+    $('#timer-resume').click(function () {
+      $clock.countdown('resume');
+      $(this).addClass('disabled');
+      $('#timer-pause').removeClass('disabled');
+    });
+  }
+  // call immediate function to close panels
   (function () {
-
     $('.panel')
       .find('.panel-body')
       .slideUp();
@@ -27,9 +88,9 @@ $(document).ready(function () {
       .find('i')
       .removeClass('glyphicon-chevron-up')
       .addClass('glyphicon-chevron-down');
-
   })();
 
+  // setup click event for panels
   $(document).on('click', '.panel-heading, clickable', function (e) {
 
     var $this = $(this);
@@ -75,48 +136,6 @@ $(document).ready(function () {
         .removeClass('glyphicon-chevron-down')
         .addClass('glyphicon-chevron-up');
     }
-
-  });
-
-  function defaultTimer() {
-
-    $($clock).countdown(timerTime, function (event) {
-      $('#timer-resume').addClass('disabled');
-      $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec')
-        );
-    });
-
-  }
-
-  function preset25Minutes() {
-    var d1 = new Date();
-    var d2 = new Date();
-    var sess = 25;
-    return d2.setMinutes(d1.getMinutes() + sess);
-
-  }
-
-  $('#timer-reset').click(function () {
-    $clock.countdown(preset25Minutes());
-    $('#timer-resume').removeClass('disabled');
-    $('#timer-resume').removeClass('active');
-    $('#timer-pause').removeClass('disabled');
-    $('#timer-pause').removeClass('active');
-
-  });
-
-  $('#timer-pause').click(function () {
-    $clock.countdown('pause');
-    $(this).addClass('disabled');
-    $('#timer-resume').removeClass('disabled');
-
-  });
-
-  $('#timer-resume').click(function () {
-    $clock.countdown('resume');
-    $(this).addClass('disabled');
-    $('#timer-pause').removeClass('disabled');
-
   });
 
 });
