@@ -11,7 +11,7 @@ $(document).ready(function () {
         name: 'bell_ring'
       },
       {
-        name: 'button_click'
+        name: 'snap'
       }
     ],
     volume: 0.1,
@@ -50,8 +50,8 @@ $(document).ready(function () {
 
       $($clock).countdown(timerTime)
         .on('update.countdown', function (event) {
+          $.ionSound.play('snap', { volume: 0.25 });
           $(this).html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
-          $.ionSound.play('button_click', { volume: 0.1});
         })
 
         .on('finish.countdown', function (event) {
