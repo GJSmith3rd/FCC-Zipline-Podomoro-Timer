@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   // initially set pomodoro variables
   var setUnits = 3;
-  var sessTime = 1;
+  var sessTime = 3;
   var sessBreakTime = 5;
   var setBreakTime = 15;
 
