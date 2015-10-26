@@ -1,5 +1,5 @@
 /* global $ */
-/* */
+
 $(document).ready(function() {
 
   // timer selector
