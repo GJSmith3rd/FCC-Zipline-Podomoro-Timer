@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/GJSmith3rd/FCC-Zipline-Pomodoro-Timer.svg?branch=master)](https://travis-ci.org/GJSmith3rd/FCC-Zipline-Pomodoro-Timer)
+
 # GJSmith3rd/FCC-Zipline-Pomodoro-Timer
 [FreeCodeCamp Zipline Pomodoro-Timer](https://github.com/GJSmith3rd/FCC-Zipline-Pomodoro-Timer)
 --------------------------------
