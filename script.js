@@ -51,8 +51,13 @@ $(document).ready(function() {
       // })//update
       .on('update.countdown', function(event) {
         $.ionSound.play('snap', {
-          volume: 0.25
+          volume: 0.1
         });
+        document.title = 'Timer ' +
+        event.offset.minutes +
+        'm' +
+        event.offset.seconds +
+        's';
       });
 
     /*
@@ -61,14 +66,7 @@ $(document).ready(function() {
 
     $('#timer-resume').click(function() {
       //resume timer
-      //$clock.countdown('resume');
-
-      resumeMin = new Date();
-
-      var timedelta = resumeMin.getTime() - pauseMin.getTime();
-
-      console.log(resumeMin.toString());
-      $clock.countdown(timedelta.parseTime());
+      $clock.countdown('resume');
 
       $(this).addClass('disabled');
       $('#timer-pause').removeClass('disabled');
