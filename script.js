@@ -30,7 +30,6 @@ $(document).ready(function() {
   POMODORO SETUP FUNCTION
   */
   function setUpPomodoro(timerMins, timerMs) {
-
     /*
     TIMER EVENTS
     */
@@ -196,8 +195,7 @@ $(document).ready(function() {
   var soundLocation = 'https://7b313a9f7606490ebe3c2c7d078512212b272396.googledrive.com/';
   soundLocation += 'host/0BxHL3kJgWo5eT1NpOW8zbzB0SzQ/sounds/';
 
-  $.ionSound({
-    sounds: [{
+  $.ionSound({    sounds: [{
       name: 'bell_ring'
     }, {
       name: 'snap'
