@@ -16,9 +16,10 @@ $(document).ready(function() {
 
   // initially set pomodoro variables
   var setUnits = 1;
-  var sessTime = 9;
-  var sessBreakTime = 1;
+  var sessTime = 25;
+  var sessBreakTime = 5;
   var setBreakTime = 1;
+  var displayTime = '';
 
   /*
   POMODORO CALL MAIN DRIVER
@@ -28,9 +29,12 @@ $(document).ready(function() {
     breakMins = convertValueToMinutes(sessTime + sessBreakTime);
     $('.break').hide();
     if (sessTime < 10) {
-      var displayTime = '0' + sessTime
+      displayTime = '0' + sessTime;
+    }else {
+      displayTime = sessTime;
     }
     $('.timer').text(displayTime +  ' min 00 sec');
+    $('#sessText').text('Start Session');
   })();
 
   //resetTimer();
@@ -39,6 +43,7 @@ $(document).ready(function() {
     breakMins = convertValueToMinutes(sessTime + sessBreakTime);
 
     $('.break').hide();
+    $('#sessText').text('Session Time');
 
     sessTimer(timerMins, '.timer');
     breakTimer(breakMins, '.break');
