@@ -1,5 +1,5 @@
 /* global $ */
-
+//test
 $(document).ready(function() {
 
   // timer selector
@@ -11,31 +11,52 @@ $(document).ready(function() {
   var pauseMin;
   var timerMins = new Date();
   var timerMs;
+  var breakMins = new Date();
+  var breakMs;
 
   // initially set pomodoro variables
-  var setUnits = 3;
-  var sessTime = 3;
+  var setUnits = 1;
+  var sessTime = 25;
   var sessBreakTime = 5;
-  var setBreakTime = 15;
+  var setBreakTime = 1;
+  var displayTime = '';
 
   /*
   POMODORO CALL MAIN DRIVER
   */
+  (function() {
+    timerMins = convertValueToMinutes(sessTime);
+    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+    $('.break').hide();
+    if (sessTime < 10) {
+      displayTime = '0' + sessTime;
+    }else {
+      displayTime = sessTime;
+    }
+    $('.timer').text(displayTime +  ' min 00 sec');
+    $('#sessText').text('Start Session');
+  })();
 
-  timerMins = convertValueToMinutes(sessTime);
-  timerMs = convertValueToMs(sessTime);
-  setUpPomodoro(timerMins, timerMs);
+  //resetTimer();
+  function resetTimer() {
+    timerMins = convertValueToMinutes(sessTime);
+    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
 
+    $('.break').hide();
+    $('#sessText').text('Session Time');
+
+    sessTimer(timerMins, '.timer');
+    breakTimer(breakMins, '.break');
+  }
   /*
   POMODORO SETUP FUNCTION
   */
-  function setUpPomodoro(timerMins, timerMs) {
-
+  function sessTimer(timerMins, selector) {
     /*
     TIMER EVENTS
     */
 
-    $clock.countdown(timerMins, function(event) {
+    $(selector).countdown(timerMins, function(event) {
 
         $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
@@ -44,60 +65,108 @@ $(document).ready(function() {
       .on('finish.countdown', function(event) {
         $.ionSound.play('bell_ring', {
           volume: 0.1,
-          loop: 5
+          loop: 1
         });
-      }) //stop
+        $('.timer').hide();
+        $('.break').show();
+        $('#sessText').text('Session Break');
+        // document.title = 'Timer ' +
+        //   '0' +
+        //   'm' +
+        //   '0' +
+        //   's';
+      })
+      //stop
       // .on('stop.countdown', function (event) {
       //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
       // })//update
       .on('update.countdown', function(event) {
         $.ionSound.play('snap', {
-          volume: 0.25
+          volume: 0.1
         });
+        document.title = 'Timer ' +
+          event.offset.minutes +
+          'm' +
+          event.offset.seconds +
+          's';
       });
 
+  }
+
+  function breakTimer(breakMins, selector) {
     /*
-    TIMER CONTROLS
+    TIMER EVENTS
     */
 
-    $('#timer-resume').click(function() {
-      //resume timer
-      //$clock.countdown('resume');
+    $(selector).countdown(breakMins, function(event) {
 
-      resumeMin = new Date();
+        $(this).
+        html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
 
-      var timedelta = resumeMin.getTime() - pauseMin.getTime();
+      }) //finish
+      .on('finish.countdown', function(event) {
+        $.ionSound.play('computer_error', {
+          volume: 0.1,
+          loop: 3
+        });
+        $('#sessText').text('Session Over');
+        document.title = 'Timer ' +
+          '0' +
+          'm' +
+          '0' +
+          's';
+      })
+      //stop
+      // .on('stop.countdown', function (event) {
+      //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
+      // })//update
+      .on('update.countdown', function(event) {
+        // $.ionSound.play('snap', {
+        //   volume: 0.1
+        // });
 
-      console.log(resumeMin.toString());
-      $clock.countdown(timedelta.parseTime());
-
-      $(this).addClass('disabled');
-      $('#timer-pause').removeClass('disabled');
-    });
-
-    $('#timer-pause').click(function() {
-      // pause timer
-      $clock.countdown('pause');
-
-      pauseMin = new Date();
-
-      $(this).addClass('disabled');
-      $('#timer-resume').removeClass('disabled');
-    });
-
-    $('#timer-reset').click(function() {
-
-      // reset timer
-      var duration = convertValueToMinutes(sessTime);
-      $clock.countdown(duration);
-
-      $('#timer-resume').removeClass('disabled');
-      $('#timer-resume').removeClass('active');
-      $('#timer-pause').removeClass('disabled');
-      $('#timer-pause').removeClass('active');
-    });
+        document.title = 'Timer ' +
+          event.offset.minutes +
+          'm' +
+          event.offset.seconds +
+          's';
+      });
 
   }
+
+  /*
+  TIMER CONTROLS
+  */
+
+  $('#timer-reset').click(function() {
+
+    // reset timer
+    //var duration = convertValueToMinutes(sessTime);
+    //$clock.countdown(duration);
+    resetTimer();
+    $('#timer-resume').removeClass('disabled');
+    $('#timer-resume').removeClass('active');
+    $('#timer-pause').removeClass('disabled');
+    $('#timer-pause').removeClass('active');
+  });
+
+  $('#timer-resume').click(function() {
+    //resume timer
+    $clock.countdown('resume');
+
+    $(this).addClass('disabled');
+    $('#timer-pause').removeClass('disabled');
+  });
+
+  $('#timer-pause').click(function() {
+    // pause timer
+    $clock.countdown('pause');
+
+    pauseMin = new Date();
+
+    $(this).addClass('disabled');
+    $('#timer-resume').removeClass('disabled');
+  });
 
   /*
   CONVERT VALUES TO MINUTES
@@ -109,14 +178,6 @@ $(document).ready(function() {
     var timerTime = startTime;
 
     return timerTime.setMinutes(currentTime.getMinutes() + timerValue);
-  }
-
-  /*
-  CONVERT VALUES TO MS
-  */
-  function convertValueToMs(timerValue) {
-    timerMs = timerValue * 60 * 1000;
-    return timerMs;
   }
 
   /*
@@ -193,17 +254,18 @@ $(document).ready(function() {
   /*
   SET IONSOUND CONFIG
   */
-  var soundLocation = 'https://7b313a9f7606490ebe3c2c7d078512212b272396.googledrive.com/';
-  soundLocation += 'host/0BxHL3kJgWo5eT1NpOW8zbzB0SzQ/sounds/';
+  var soundLocation = 'http://cdn.mobilecreature.com/pomodoro/media/sounds/';
 
   $.ionSound({
     sounds: [{
       name: 'bell_ring'
     }, {
       name: 'snap'
+    }, {
+      name: 'computer_error'
     }],
     volume: 0.1,
-    multiplay: true,
+    multiplay: false,
     path: soundLocation,
     preload: true
   });
