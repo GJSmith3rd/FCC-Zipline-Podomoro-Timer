@@ -2,7 +2,8 @@
 
 $(document).ready(function() {
 
-	if (location.host == '10.0.0.75:3039') { 	
+	//if mobile dev ide
+	if (location.host === '10.0.0.75:3039') { 	
 	
 		$.getScript('live.js'); 	
 		
