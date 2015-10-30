@@ -1,6 +1,12 @@
 /* global $ */
-//test
+
 $(document).ready(function() {
+
+	if (location.host == '10.0.0.75:3039') { 	
+	
+		$.getScript('live.js'); 	
+		
+		}
 
   // timer selector
   var $clock = $('.timer');
@@ -60,13 +66,13 @@ $(document).ready(function() {
       console.log('sets & sessions');
       //more sets available
 
-      //timerMins = convertValueToMinutes(sessTime);
-      //breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+      timerMins = convertValueToMinutes(sessTime);
+      breakMins = convertValueToMinutes(sessTime + sessBreakTime);
       sessCounter -= 1;
 
       sessTimer(timerMins);
 
-    } else if ((setCounter > 0) && (sessCounter === 0)) {
+    } else if ((setCounter >(0) && (sessCounter === 0)) {
       console.log('sets & no sessions');
       //more sets but no sessions available
 
