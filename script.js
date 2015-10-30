@@ -1,6 +1,6 @@
 /* global $ */
 $(document).load(function() {
-
+  console.log(location.host);
   if (location.host === '10.0.0.75:3039') {
 
     $('head').append('<link async="false" rel="stylesheet/less"' +
