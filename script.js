@@ -1,5 +1,10 @@
 /* global $ */
 $(document).load(function() {
+
+});
+
+$(document).ready(function() {
+
   console.log(location.host);
   if (location.host === '10.0.0.75:3039') {
 
@@ -20,10 +25,6 @@ $(document).load(function() {
     $.getScript('live.js');
 
   }
-
-});
-
-$(document).ready(function() {
 
   // timer selector
   var $clock = $('.timer');
