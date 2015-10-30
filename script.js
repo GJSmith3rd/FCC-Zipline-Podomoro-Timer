@@ -1,13 +1,23 @@
 /* global $ */
+$(document).load(function() {
+
+	if (location.host === '10.0.0.75:3039') {
+	
+	  //use live.js if mobile dev ide
+		$.getScript('live.js');
+		
+		//remove local css for less if mobile ide
+		$('#less').remove();
+
+	} else {
+		
+		//remove less scripts from dom if not mobile dev ide
+		$('.less').each().remove();	
+		}
+		
+}
 
 $(document).ready(function() {
-
-	//if mobile dev ide
-	if (location.host === '10.0.0.75:3039') {
-
-		$.getScript('live.js');
-
-		}
 
   // timer selector
   var $clock = $('.timer');
