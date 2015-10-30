@@ -9,77 +9,130 @@ $(document).ready(function() {
   var startTime;
   var resumeMin;
   var pauseMin;
-  var timerMins = new Date();
+
   var timerMs;
-  var breakMins = new Date();
   var breakMs;
 
+  var timerMins = new Date();
+  var breakMins = new Date();
+  var setBreakMins = new Date();
+
   // initially set pomodoro variables
-  var setUnits = 1;
-  var sessTime = 25;
-  var sessBreakTime = 5;
-  var setBreakTime = 1;
+  var setUnits = 2;
+
+  var sessUnits;
+  var sessTime = 1;
+  var sessCounter = 2;
+  var sessBreakTime = 1;
+
+  var setCounter = setUnits;
+  var setBreakTime = 2;
+
   var displayTime = '';
 
   /*
-  POMODORO CALL MAIN DRIVER
+  PRIMER
   */
   (function() {
     timerMins = convertValueToMinutes(sessTime);
     breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+    setBreakMins = convertValueToMinutes(sessTime + setBreakTime);
     $('.break').hide();
     if (sessTime < 10) {
       displayTime = '0' + sessTime;
-    }else {
+    } else {
       displayTime = sessTime;
     }
-    $('.timer').text(displayTime +  ' min 00 sec');
+    $('.timer').text(displayTime + ' min 00 sec');
     $('#sessText').text('Start Session');
+
+    mainDriver();
+
   })();
 
-  //resetTimer();
-  function resetTimer() {
-    timerMins = convertValueToMinutes(sessTime);
-    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+  /*
+  MAIN DRIVER
+  */
 
-    $('.break').hide();
-    $('#sessText').text('Session Time');
+  function mainDriver() {
+    console.log('main driver' + setCounter + ':' + sessCounter);
+    if ((setCounter > 0) && (sessCounter > 0)) {
+      console.log('sets & sessions');
+      //more sets available
 
-    sessTimer(timerMins, '.timer');
-    breakTimer(breakMins, '.break');
+      //timerMins = convertValueToMinutes(sessTime);
+      //breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+      sessCounter -= 1;
+
+      sessTimer(timerMins);
+
+    } else if ((setCounter > 0) && (sessCounter === 0)) {
+      console.log('sets & no sessions');
+      //more sets but no sessions available
+
+      sessCounter = 2;
+      setCounter -= 1;
+
+      //breakMins = convertValueToMinutes(setBreakTime);
+      breakTimer(breakMins);
+
+    } else if ((setCounter === 0) && (sessCounter > 0)) {
+      console.log('no sets & no sessions');
+      //no set or sessions available
+
+      console.log('Set and Sessions Finished');
+
+    }
+
   }
+
   /*
   POMODORO SETUP FUNCTION
   */
-  function sessTimer(timerMins, selector) {
+
+  function sessTimer(timerMins) {
     /*
     TIMER EVENTS
     */
+    $.ionSound.play('bell_ring', {
+      volume: 0.1,
+      loop: 1
 
-    $(selector).countdown(timerMins, function(event) {
+    });
+    $('.timer').countdown(timerMins, function(event) {
 
         $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
+        $('#sessText').text('Session Time');
 
       }) //finish
       .on('finish.countdown', function(event) {
         $.ionSound.play('bell_ring', {
           volume: 0.1,
           loop: 1
+
         });
         $('.timer').hide();
         $('.break').show();
-        $('#sessText').text('Session Break');
-        // document.title = 'Timer ' +
-        //   '0' +
-        //   'm' +
-        //   '0' +
-        //   's';
+        document.title = 'Timer ' +
+          '0' +
+          'm' +
+          '0' +
+          's';
+
+        //breakTimer(breakMins, '.break');
+
+        if (sessCounter === 0) {
+          $('#sessText').text('Set Break');
+          breakTimer(setBreakMins);
+
+        } else {
+          $('#sessText').text('Session Break');
+          breakTimer(breakMins);
+        }
+
       })
-      //stop
-      // .on('stop.countdown', function (event) {
-      //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
-      // })//update
+      //update
       .on('update.countdown', function(event) {
         $.ionSound.play('snap', {
           volume: 0.1
@@ -93,28 +146,32 @@ $(document).ready(function() {
 
   }
 
-  function breakTimer(breakMins, selector) {
+  function breakTimer(breakMins) {
     /*
     TIMER EVENTS
     */
 
-    $(selector).countdown(breakMins, function(event) {
+    $('.break').countdown(breakMins, function(event) {
 
         $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
 
       }) //finish
       .on('finish.countdown', function(event) {
-        $.ionSound.play('computer_error', {
+        $.ionSound.play('bell_ring', {
           volume: 0.1,
-          loop: 3
+          loop: 2
         });
-        $('#sessText').text('Session Over');
+        $('.timer').show();
+        $('.break').hide();
+
         document.title = 'Timer ' +
           '0' +
           'm' +
           '0' +
           's';
+
+        mainDriver();
       })
       //stop
       // .on('stop.countdown', function (event) {
@@ -132,6 +189,18 @@ $(document).ready(function() {
           's';
       });
 
+  }
+
+  //resetTimer();
+  function resetTimer() {
+    timerMins = convertValueToMinutes(sessTime);
+    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+
+    $('.break').hide();
+    $('#sessText').text('Session Time');
+
+    sessTimer(timerMins, '.timer');
+    //breakTimer(breakMins, '.break');
   }
 
   /*
