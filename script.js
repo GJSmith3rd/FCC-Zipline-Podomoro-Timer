@@ -3,18 +3,24 @@ $(document).load(function() {
 
   if (location.host === '10.0.0.75:3039') {
 
+    $('head').append('<link async="false" rel="stylesheet/less"' +
+      ' type="text/css" href="styles.less" />');
+    $('head').append('<script async=false >less = {env: "development", ' +
+      'async: false, fileAsync: false, poll: 1000, functions: {}, dumpLineNumbers: "comments",' +
+      ' relativeUrls: false}; </script>');
+    $('head').append('<script async=false src="less.min.js" type="text/javascript"></script>');
+    $('head').append('<script async=false>less.watch();</script>');
+  } else {
+    $('head').append('<link async="false" rel="stylesheet" href="styles.css" />');
+  }
+
+  if (location.host === '10.0.0.75:3039') {
+
     //use live.js if mobile dev ide
     $.getScript('live.js');
 
-    //remove local css for less if mobile ide
-    $('#less').remove();
-
-  } else {
-
-    //remove less scripts from dom if not mobile dev ide
-    $('.less').each().remove();
-
   }
+
 });
 
 $(document).ready(function() {
