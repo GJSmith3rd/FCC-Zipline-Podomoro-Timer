@@ -3,10 +3,10 @@
 $(document).ready(function() {
 
 	//if mobile dev ide
-	if (location.host === '10.0.0.75:3039') { 	
-	
-		$.getScript('live.js'); 	
-		
+	if (location.host === '10.0.0.75:3039') {
+
+		$.getScript('live.js');
+
 		}
 
   // timer selector
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
       sessTimer(timerMins);
 
-    } else if ((setCounter >(0) && (sessCounter === 0)) {
+    } else if ((setCounter > 0) && (sessCounter === 0)) {
       console.log('sets & no sessions');
       //more sets but no sessions available
 
