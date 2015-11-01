@@ -60,10 +60,11 @@ gulp.task('vet', function () {
     return gulp
         .src(config.alljs)
         .pipe($.if(args.verbose, $.print()))
-        .pipe($.jscs())
-        .pipe($.jshint())
-        .pipe($.jshint.reporter('jshint-stylish', { verbose: true }))
-        .pipe($.jshint.reporter('fail'));
+        //.pipe($.jscs())
+        //.pipe($.jshint())
+        //.pipe($.jshint.reporter('jshint-stylish', { verbose: true }))
+        //.pipe($.jshint.reporter('fail'))
+        ;
 });
 
 /*
@@ -183,12 +184,12 @@ function startBrowserSync() {
             changeEvent(event);
         });
 
-    gulp.watch(config.js, ['vet', browserSync.reload])
+    gulp.watch(config.js, ['vet', browserSync.stream])
         .on('change', function (event) {
             changeEvent(event);
         });
 
-    gulp.watch(config.index, browserSync.reload)
+    gulp.watch(config.index, browserSync.stream)
         .on('change', function (event) {
             changeEvent(event);
         });
@@ -213,7 +214,7 @@ function startBrowserSync() {
         logLevel: 'debug',
         logPrefix: '*** browserSync',
         notify: true,
-        reloadDelay: 3000,
+        reloadDelay: 10000,
         open: false,
         scrollRestoreTechnique: 'cookie',
         scrollProportionally: 'true'

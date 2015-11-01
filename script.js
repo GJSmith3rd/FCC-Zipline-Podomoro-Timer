@@ -14,16 +14,18 @@ var timerMins = new Date();
 var breakMins = new Date();
 var setBreakMins = new Date();
 
+var breakTimerMins = new Date();
+
 // initially set pomodoro variables
 var setUnits = 2;
 var setCounter = setUnits;
 
-var sessUnits = 2;
+var sessUnits = 4;
 var sessCounter = sessUnits;
 
-var sessTime = 1;
-var sessBreakTime = 1;
-var setBreakTime = 1;
+var sessTime = 20;
+var sessBreakTime = 20;
+var setBreakTime = 20;
 
 $(document).ready(function() {
 
@@ -32,63 +34,75 @@ $(document).ready(function() {
   */
 
   function mainDriver() {
+    console.log('Main Driver');
 
-    // timerMins = convertValueToMinutes(sessTime);
-    // breakMins = convertValueToMinutes(sessBreakTime);
-    // setBreakMins = convertValueToMinutes(setBreakTime);
-
-    console.log('main driver' + setCounter + ':' + sessCounter);
-
-    if ((setCounter > 1) && (sessCounter > 1)) {
-      console.log('more sets & more sessions');
+    if ((setCounter > 0) && (sessCounter > 0)) {
+      console.log(setCounter + ' more sets & ' + sessCounter + ' more sessions');
       //more sets and more sessions available
 
-      updateStatus();
-      sessCounter -= 1;
-      sessTimer(timerMins);
+      $('#sessText').text('Sets ' + setCounter + ' Sessions ' + sessCounter);
+      console.log('calling Session Timer');
 
-    } else if ((setCounter > 1) && (sessCounter === 0)) {
-      console.log('new set & more sessions');
+      sessCounter -= 1;
+
+      timerMins = convertValueToMinutes(sessTime);
+      breakTimerMins = convertValueToMinutes(sessBreakTime);
+      sessTimer(timerMins, breakTimerMins);
+
+    } else if ((setCounter > 0) && (sessCounter === 0)) {
+      console.log(setCounter + ' more sets & ' + sessCounter + ' more sessions');
       //more sets but no sessions available
 
+      $('#sessText').text('Session Break');
+      console.log('calling Break Timer');
+
       sessCounter = sessUnits;
-      updateStatus();
       setCounter -= 1;
-      sessTimer(timerMins);
 
-    } else if (sessCounter > 1) {
-      //no sets but more sessions available
-      console.log('no more sets & more sessions');
+      breakMins = convertValueToMinutes(setBreakTime);
+      breakTimer(breakTimerMins);
 
-      updateStatus();
-      sessCounter -= 1;
-      sessTimer(timerMins);
-
-    } else {
+      // } else if ((setCounter >= 1) && (sessCounter === 0)) {
+      //   //no sets but more sessions available
+      //   console.log(setCounter + ' more sets & ' + sessCounter + ' more sessions');
+      //
+      //   sessCounter = sessUnits;
+      //
+      //   $('#sessText').text('Session Break');
+      //   console.log('calling Break Timer');
+      //
+      //   setCounter -= 1;
+      //
+      //   timerMins = convertValueToMinutes(setBreakTime);
+      //   breakTimer(timerMins);
+      //
+      //  } else if ((setCounter === 1) && (sessCounter === 0)) {
+      //   //(setCounter === 0 && sessCounter === 0))
+      //   //no sets and no more sessions available
+      //   console.log(setCounter + ' more sets & ' + sessCounter + ' more sessions');
+      //
+      //   sessCounter = sessUnits;
+      //
+      //   $('#sessText').text('Sets ' + setCounter + ' Sessions ' + sessCounter);
+      //
+    } else if (setCounter === 0) {
       //(setCounter === 0 && sessCounter === 0))
       //no sets and no more sessions available
-      console.log('no more sets & more sessions');
+      console.log(setCounter + ' more sets & ' + sessCounter + ' more sessions');
 
-      updateStatus();
-    }
-
-  }
-
-  function updateStatus() {
-
-    if (setCounter === 0 && sessCounter === 0) {
       $('#sessText').text('Pomodoro Over');
-    } else {
-      timerMins = convertValueToMinutes(sessTime);
-      $('#sessText').text('Sets ' + setCounter + ' Sessions ' + sessCounter);
+
     }
-  }
+
+  }.deb()
 
   /*
   POMODORO SETUP FUNCTION
   */
 
-  function sessTimer(timerMins) {
+  function sessTimer(timerMins, breakTimerMins) {
+    console.log('Session Timer');
+
     /*
     TIMER EVENTS
     */
@@ -111,24 +125,9 @@ $(document).ready(function() {
         });
         $('.timer').hide();
         $('.break').show();
-        document.title = 'Timer ' +
-          '0' +
-          'm' +
-          '0' +
-          's';
 
-        //breakTimer(breakMins, '.break');
-        console.log(sessCounter);
-        if (sessCounter === 0) {
-          $('#sessText').text('Set Break');
-          breakMins = convertValueToMinutes(setBreakTime);
-          breakTimer(breakMins);
-
-        } else {
-          $('#sessText').text('Session Break');
-          breakMins = convertValueToMinutes(sessBreakTime);
-          breakTimer(breakMins);
-        }
+        console.log('calling break driver');
+        breakTimer(breakTimerMins);
 
       })
       //update
@@ -136,7 +135,9 @@ $(document).ready(function() {
         $.ionSound.play('snap', {
           volume: 0.1
         });
-        document.title = 'Timer ' +
+        $('.break').hide();
+        $('.timer').show();
+        document.title = 'Session ' +
           event.offset.minutes +
           'm' +
           event.offset.seconds +
@@ -145,12 +146,13 @@ $(document).ready(function() {
 
   }
 
-  function breakTimer(testMins) {
+  function breakTimer(breakTimerMins) {
+    console.log('Break Timer');
     /*
     TIMER EVENTS
     */
 
-    $('.break').countdown(testMins, function(event) {
+    $('.break').countdown(25, function(event) {
 
         $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
@@ -159,28 +161,15 @@ $(document).ready(function() {
       .on('finish.countdown', function(event) {
         $.ionSound.play('bell_ring', {
           volume: 0.1,
-          loop: 2
+          loop: 3
         });
         $('.timer').show();
         $('.break').hide();
 
-        document.title = 'Timer ' +
-          '0' +
-          'm' +
-          '0' +
-          's';
         console.log('calling main driver');
         mainDriver();
       })
-      //stop
-      // .on('stop.countdown', function (event) {
-      //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
-      // })//update
       .on('update.countdown', function(event) {
-        // $.ionSound.play('snap', {
-        //   volume: 0.1
-        // });
-
         document.title = 'Timer ' +
           event.offset.minutes +
           'm' +
@@ -245,7 +234,7 @@ $(document).ready(function() {
     var currentTime = startTime;
     var timerTime = startTime;
 
-    return timerTime.setMinutes(currentTime.getMinutes() + timerValue);
+    return timerTime.setSeconds(currentTime.getSeconds() + timerValue);
   }
 
   // setup click eventS for panels
@@ -323,9 +312,7 @@ $(document).ready(function() {
   PRIMER
   */
   (function() {
-    timerMins = convertValueToMinutes(sessTime);
-    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
-    setBreakMins = convertValueToMinutes(sessTime + setBreakTime);
+
     $('.break').hide();
     if (sessTime < 10) {
       displayTime = '0' + sessTime;

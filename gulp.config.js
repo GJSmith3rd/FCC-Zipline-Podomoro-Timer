@@ -9,7 +9,7 @@ module.exports = function () {
                         //'worker.js'
                 ],
 
-                browserReloadDelay: 3000,
+                browserReloadDelay: 10000,
 
                 //css file location
                 css: './styles.css',
@@ -26,7 +26,6 @@ module.exports = function () {
                 //node settings
                 nodeDefaultPort: 7203,
                 nodeServer: './app.js',
-
                 root: './'
 
         };
