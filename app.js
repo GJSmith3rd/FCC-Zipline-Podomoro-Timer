@@ -57,4 +57,3 @@ app.listen(port, function() {
                 '\n__dirname = ' + __dirname +
                 '\nprocess.cwd = ' + process.cwd());
 });
-
