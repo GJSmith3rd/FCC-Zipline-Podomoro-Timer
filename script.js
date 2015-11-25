@@ -25,6 +25,8 @@ var sessTime = 20;
 var sessBreakTime = 20;
 var setBreakTime = 4;
 
+var soundLocation = '';
+
 $(document).ready(function() {
 
   /*
@@ -35,6 +37,9 @@ $(document).ready(function() {
     if (location.hostname.slice(0, 6) === '10.0.0') {
       //for local development use local js, css or less, and media
       //where possible and practical to save data usage costs
+
+      soundLocation = 'local/media/sounds/';
+      setSound(soundLocation);
 
       $('.jumbotron')
         .css('background-image', 'url(local/media/images/IeZm7MT.jpg)');
@@ -97,6 +102,9 @@ $(document).ready(function() {
     } else {
 
       //for production or remote dev use normal js, css or less, and media
+
+      soundLocation = 'http://cdn.mobilecreature.com/pomodoro/media/sounds/';
+      setSound(soundLocation);
 
       $('.jumbotron')
         .css('background-image', 'url(http://i.imgur.com/IeZm7MT.jpg)');
@@ -392,8 +400,7 @@ $(document).ready(function() {
   /*
   SET IONSOUND CONFIG
   */
-  (function() {
-    var soundLocation = 'http://cdn.mobilecreature.com/pomodoro/media/sounds/';
+  function setSound(soundLocation) {
 
     $.ionSound({
       sounds: [{
@@ -408,7 +415,7 @@ $(document).ready(function() {
       path: soundLocation,
       preload: true
     });
-  })();
+  }
 
   /*
   PRIMER
