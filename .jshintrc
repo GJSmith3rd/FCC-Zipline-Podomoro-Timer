@@ -11,7 +11,7 @@
     "latedef": "nofunc",
     "newcap": true,
     "noarg": true,
-    "noempty": true,
+    "noempty": false,
     "nonbsp": true,
     "nonew": true,
     "plusplus": false,
@@ -23,7 +23,7 @@
     "maxdepth": 5,
     "maxstatements": 40,
     "maxcomplexity": 8,
-    "maxlen": 120,
+    "maxlen": 250,
 
     "asi": false,
     "boss": false,

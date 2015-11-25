@@ -13,7 +13,7 @@
     "requireOperatorBeforeLineBreak": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "maximumLineLength": {
-      "value": 100,
+      "value": 250,
       "allowComments": true,
       "allowRegex": true
     },
@@ -55,7 +55,7 @@
 
     // "validateJSDoc": {
     //     "checkParamNames": false,
-    //     "requireParamTypes": false        
+    //     "requireParamTypes": false
     // },
 
     "disallowMultipleLineBreaks": true,
