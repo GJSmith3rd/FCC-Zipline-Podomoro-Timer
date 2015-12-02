@@ -67,9 +67,10 @@
   /* Legacy iOS */
 }
 
-@mainFont: ~"'Orbitron', serif;";
-@accentFont: ~"'Petrona', sans-serif;";
-@textFont: ~"'Open Sans', sans-serif;";
+// @mainFont: ~"'Orbitron', serif;";
+// @accentFont: ~"'Petrona', sans-serif;";
+// @textFont: ~"'Open Sans', sans-serif;";
+
 @h1Color: firebrick;
 @h1ShadowColor: forestgreen;
 @h2Color: darkgreen;
@@ -110,8 +111,8 @@
 @screen-sm-min: 481px;
 @screen-xs-max: 480px;
 h1 {
-  font-family: @mainFont;
-  font-weight: 700;
+  font-family: Orbitron;
+  font-weight: 900;
   color: @h1Color !important;
   text-shadow: 2px 1px 2px @h1ShadowColor;
   &:span {
@@ -121,12 +122,12 @@ h1 {
   }
 }
 h2 {
-  font-family: @accentFont;
+  font-family: Petrona;
   color: @h2Color;
   text-shadow: 2px 1px 2px @h2ShadowColor;
 }
 h3 {
-  font-family: @textFont;
+  font-family: Orbitron;
   font-weight: 700;
   color: @h3Color;
   text-shadow: 2px 1px 2px @h3ShadowColor;
