@@ -6,4 +6,4 @@
 --------------------------------
 A MobileCreature and Gilbert Smith project.
 
-A [CodePen](http://codepen.io/GJSmith3rd/pen/YyxKzQ) and [FreeCodeCamp](http://freecodecamp.com/gjsmith3rd)
+Hosted on [CodePen - Pomodor Timer](http://codepen.io/GJSmith3rd/pen/YyxKzQ) and developed [FreeCodeCamp - GJSmith3rd](http://freecodecamp.com/gjsmith3rd)
