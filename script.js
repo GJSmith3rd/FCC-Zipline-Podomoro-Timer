@@ -254,7 +254,7 @@ $(document).ready(function() {
   /*
   SET IONSOUND CONFIG
   */
-  var soundLocation = 'http://cdn.mobilecreature.com/pomodoro/media/sounds/';
+  var soundLocation = 'http://mobilecreature-cdn.appspot.com//pomodoro/media/sounds/';
 
   $.ionSound({
     sounds: [{
