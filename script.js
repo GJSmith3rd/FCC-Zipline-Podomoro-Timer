@@ -1,5 +1,5 @@
 /* global $ */
-//test
+
 $(document).ready(function() {
 
   // timer selector
@@ -9,59 +9,62 @@ $(document).ready(function() {
   var startTime;
   var resumeMin;
   var pauseMin;
-  var timerMins = new Date();
+  var timerTime = new Date();
   var timerMs;
-  var breakMins = new Date();
+  var breakTime = new Date();
   var breakMs;
 
   // initially set pomodoro variables
   var setUnits = 1;
-  var sessTime = 25;
-  var sessBreakTime = 5;
+  var sessTime = 2;
+  var sessBreakTime = 1;
   var setBreakTime = 1;
   var displayTime = '';
+
+  var tUnit = 'secs';
 
   /*
   POMODORO CALL MAIN DRIVER
   */
   (function() {
-    timerMins = convertValueToMinutes(sessTime);
-    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+
+    timerTime = convertTimeValue(sessTime, tUnit);
+    breakTime = convertTimeValue(sessTime + sessBreakTime, tUnit);
     $('.break').hide();
     if (sessTime < 10) {
       displayTime = '0' + sessTime;
-    }else {
+    } else {
       displayTime = sessTime;
     }
-    $('.timer').text(displayTime +  ' min 00 sec');
+    $('.timer').text(displayTime + ' min 00 sec');
     $('#sessText').text('Start Session');
   })();
 
   //resetTimer();
   function resetTimer() {
-    timerMins = convertValueToMinutes(sessTime);
-    breakMins = convertValueToMinutes(sessTime + sessBreakTime);
+    timerTime = convertTimeValue(sessTime, tUnit);
+    breakTime = convertTimeValue(sessTime + sessBreakTime, tUnit);
 
     $('.break').hide();
     $('#sessText').text('Session Time');
 
-    sessTimer(timerMins, '.timer');
-    breakTimer(breakMins, '.break');
+    sessTimer(timerTime, '.timer');
+    breakTimer(breakTime, '.break');
   }
   /*
   POMODORO SETUP FUNCTION
   */
-  function sessTimer(timerMins, selector) {
+  function sessTimer(timerSecs, selector) {
     /*
     TIMER EVENTS
     */
 
-    $(selector).countdown(timerMins, function(event) {
+    $(selector).countdown(timerSecs, function(event) {
 
-        $(this).
+      $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
 
-      }) //finish
+    }) //finish
       .on('finish.countdown', function(event) {
         $.ionSound.play('bell_ring', {
           volume: 0.1,
@@ -100,10 +103,10 @@ $(document).ready(function() {
 
     $(selector).countdown(breakMins, function(event) {
 
-        $(this).
+      $(this).
         html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
 
-      }) //finish
+    }) //finish
       .on('finish.countdown', function(event) {
         $.ionSound.play('computer_error', {
           volume: 0.1,
@@ -171,15 +174,20 @@ $(document).ready(function() {
   /*
   CONVERT VALUES TO MINUTES
   */
-  function convertValueToMinutes(timerValue) {
+  function convertTimeValue(timerValue, tUnit) {
 
     startTime = new Date();
     var currentTime = startTime;
     var timerTime = startTime;
 
-    return timerTime.setMinutes(currentTime.getMinutes() + timerValue);
-  }
+    switch (tUnit) {
+      case 'mins':
+        return timerTime.setMinutes(currentTime.getMinutes() + timerValue);
+      case 'secs':
+        return timerTime.setSeconds(currentTime.getSeconds() + timerValue);
+    }
 
+  }
   /*
   PANEL CONTROLS
   */
@@ -254,16 +262,16 @@ $(document).ready(function() {
   /*
   SET IONSOUND CONFIG
   */
-  var soundLocation = 'http://mobilecreature-cdn.appspot.com//pomodoro/media/sounds/';
+  var soundLocation = 'http://mobilecreature-cdn.appspot.com/pomodoro/media/sounds/';
 
   $.ionSound({
     sounds: [{
       name: 'bell_ring'
     }, {
-      name: 'snap'
-    }, {
-      name: 'computer_error'
-    }],
+        name: 'snap'
+      }, {
+        name: 'computer_error'
+      }],
     volume: 0.1,
     multiplay: false,
     path: soundLocation,

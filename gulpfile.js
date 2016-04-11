@@ -106,6 +106,8 @@ function serve() {
     log('***Start pre processes and node server...');
 
     var nodeOptions = {
+      //debug: true,
+        //nodeArgs: ['--debug-brk'],
         script: config.nodeServer,
         delayTime: 15,
         env: {
