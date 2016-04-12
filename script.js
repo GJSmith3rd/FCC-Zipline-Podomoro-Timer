@@ -2,54 +2,101 @@
 
 $(document).ready(function() {
 
-  // timer selector
-  var $clock = $('.timer');
-
   // setup time pause variables
   var startTime;
-  var resumeMin;
-  var pauseMin;
+
   var timerTime = new Date();
   var timerMs;
   var breakTime = new Date();
   var breakMs;
 
-  // initially set pomodoro variables
-  var setUnits = 1;
-  var sessTime = 2;
-  var sessBreakTime = 1;
-  var setBreakTime = 1;
-  var displayTime = '';
+  // updateially set pomodoro variables
 
-  var tUnit = 'secs';
+  var sessionValue = 30;
+  var sessionBreakValue = 5;
+  var setBreakValue = 3;
+  var setValue = 5;
 
   /*
   POMODORO CALL MAIN DRIVER
   */
-  (function() {
 
-    timerTime = convertTimeValue(sessTime, tUnit);
-    breakTime = convertTimeValue(sessTime + sessBreakTime, tUnit);
-    $('.break').hide();
-    if (sessTime < 10) {
-      displayTime = '0' + sessTime;
-    } else {
-      displayTime = sessTime;
+  console.log(valueToTime(sessionValue).timeSecs);
+  updateClock(valueToTime(sessionValue).timeSecs);
+
+
+  //END DRIVER
+
+  /*
+  SUPPORT FUNCTIONS
+  */
+
+  var timeinterval = setInterval(updateClock, 1000, valueToTime(sessionValue).timeSecs);
+
+  function updateClock(endtime) {
+    console.log(endtime);
+    var t = getTimeRemaining(endtime);
+    var content = 'days: ' + t.days + '<br>' +
+      'hours: ' + t.hours + '<br>' +
+      'minutes: ' + t.mins + '<br>' +
+      'seconds: ' + t.secs;
+    $('#clockdiv').html(content);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
     }
-    $('.timer').text(displayTime + ' min 00 sec');
-    $('#sessText').text('Start Session');
-  })();
+  }
+
+  /*
+  CONVERT VALUES TO ENDTIME
+  */
+
+  function valueToTime(num) {
+
+    var secMs = (num * 1000);
+    //console.log(secMs);
+    var minMs = (num * 60 * 1000);
+    //console.log(minMs);
+
+    var timeSecs = new Date(Date.now() + secMs);
+    //console.log(timeSecs);
+    var timeMins = new Date(Date.now() + minMs);
+    //console.log(timeMins);
+
+    return {
+      timeDate: new Date(Date.now()),
+      timeSecs: timeSecs,
+      timeMins: timeMins
+
+    };
+
+  }
+
+  /*
+  CONVERT TIME TO MILLISECONDS
+  */
+
+  function getTimeRemaining(endtime) {
+
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var secs = Math.floor((t / 1000) % 60);
+    var mins = Math.floor((t / 1000 / 60) % 60);
+    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+    return {
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'mins': mins,
+      'secs': secs
+    };
+
+  }
 
   //resetTimer();
   function resetTimer() {
-    timerTime = convertTimeValue(sessTime, tUnit);
-    breakTime = convertTimeValue(sessTime + sessBreakTime, tUnit);
 
-    $('.break').hide();
-    $('#sessText').text('Session Time');
-
-    sessTimer(timerTime, '.timer');
-    breakTimer(breakTime, '.break');
   }
   /*
   POMODORO SETUP FUNCTION
@@ -59,81 +106,12 @@ $(document).ready(function() {
     TIMER EVENTS
     */
 
-    $(selector).countdown(timerSecs, function(event) {
-
-      $(this).
-        html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
-
-    }) //finish
-      .on('finish.countdown', function(event) {
-        $.ionSound.play('bell_ring', {
-          volume: 0.1,
-          loop: 1
-        });
-        $('.timer').hide();
-        $('.break').show();
-        $('#sessText').text('Session Break');
-        // document.title = 'Timer ' +
-        //   '0' +
-        //   'm' +
-        //   '0' +
-        //   's';
-      })
-      //stop
-      // .on('stop.countdown', function (event) {
-      //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
-      // })//update
-      .on('update.countdown', function(event) {
-        $.ionSound.play('snap', {
-          volume: 0.1
-        });
-        document.title = 'Timer ' +
-          event.offset.minutes +
-          'm' +
-          event.offset.seconds +
-          's';
-      });
-
   }
 
   function breakTimer(breakMins, selector) {
     /*
     TIMER EVENTS
     */
-
-    $(selector).countdown(breakMins, function(event) {
-
-      $(this).
-        html(event.strftime('<span>%M</span> min ' + '<span>%S</span> sec'));
-
-    }) //finish
-      .on('finish.countdown', function(event) {
-        $.ionSound.play('computer_error', {
-          volume: 0.1,
-          loop: 3
-        });
-        $('#sessText').text('Session Over');
-        document.title = 'Timer ' +
-          '0' +
-          'm' +
-          '0' +
-          's';
-      })
-      //stop
-      // .on('stop.countdown', function (event) {
-      //   $.ionSound.play('bell_ring', { volume: 0.1, loop: 5 });
-      // })//update
-      .on('update.countdown', function(event) {
-        // $.ionSound.play('snap', {
-        //   volume: 0.1
-        // });
-
-        document.title = 'Timer ' +
-          event.offset.minutes +
-          'm' +
-          event.offset.seconds +
-          's';
-      });
 
   }
 
@@ -155,7 +133,6 @@ $(document).ready(function() {
 
   $('#timer-resume').click(function() {
     //resume timer
-    $clock.countdown('resume');
 
     $(this).addClass('disabled');
     $('#timer-pause').removeClass('disabled');
@@ -163,34 +140,14 @@ $(document).ready(function() {
 
   $('#timer-pause').click(function() {
     // pause timer
-    $clock.countdown('pause');
-
-    pauseMin = new Date();
 
     $(this).addClass('disabled');
     $('#timer-resume').removeClass('disabled');
   });
 
   /*
-  CONVERT VALUES TO MINUTES
-  */
-  function convertTimeValue(timerValue, tUnit) {
-
-    startTime = new Date();
-    var currentTime = startTime;
-    var timerTime = startTime;
-
-    switch (tUnit) {
-      case 'mins':
-        return timerTime.setMinutes(currentTime.getMinutes() + timerValue);
-      case 'secs':
-        return timerTime.setSeconds(currentTime.getSeconds() + timerValue);
-    }
-
-  }
-  /*
-  PANEL CONTROLS
-  */
+PANEL CONTROLS
+*/
 
   // call immediate function to close panels
   (function() {
