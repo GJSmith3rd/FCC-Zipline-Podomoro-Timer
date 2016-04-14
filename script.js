@@ -10,9 +10,9 @@ $(document).ready(function() {
   var breakTime = new Date();
   var breakMs;
 
-  // updateially set pomodoro variables
-
-  var sessionValue = 1;
+  // update pomodoro variables
+  var defaultValue = 15;
+  var sessionValue = 15;
   var sessionBreakValue = 5;
   var setBreakValue = 3;
   var setValue = 5;
@@ -20,7 +20,8 @@ $(document).ready(function() {
   /*
   POMODORO CALL MAIN DRIVER
   */
-
+  $('.minutes').text(('0' + sessionValue).slice(-2));
+  $('.seconds').text('00');
   //END DRIVER
 
   /*
@@ -70,20 +71,29 @@ $(document).ready(function() {
 
   }
 
+  function clearTimers() {
+    for (var j = 1; j < 99999; j++) {
+      window.clearInterval(j);
+    }
+  }
+
+  function initDisplay() {
+    $('.minutes').text(('0' + sessionValue).slice(-2));
+    $('.seconds').text('00');
+    $('#sessText').text('Start Session');
+  }
+
   //resetTimer();
   function resetTimer() {
     console.log('resetTimer');
 
-    for (var j = 1; j < 99999; j++) {
-      window.clearInterval(j);
-    }
-
+    clearTimers();
+    initDisplay();
     startTimers();
 
     function startTimers() {
       console.log('startTimers');
-      $('.minutes').text('01');
-      $('.seconds').text('00');
+      initDisplay();
       $('#sessText').text('Session In Progress');
       $.ionSound.play('start');
 
@@ -101,9 +111,7 @@ $(document).ready(function() {
         if (t.total <= 0) {
           clearInterval(sessionInterval);
           $.ionSound.play('finish');
-          $('.minutes').text('01');
-          $('.seconds').text('00');
-          $('#sessText').text('Start Session');
+          initDisplay();
         }
       }
 
@@ -133,30 +141,53 @@ $(document).ready(function() {
   TIMER CONTROLS
   */
 
-  $('#timer-resume').click(function() {
-    //resume timer
+  $('#timer-minus').click(function() {
+    switch (true) {
+      case sessionValue < 2:
+        $(this).removeClass('enabled');
+        $(this).addClass('disabled');
+        $('#timer-plus').removeClass('disabled');
+        $('#timer-plus').addClass('enabled');
+        break;
+      default:
+        if ($('#timer-plus').hasClass('disabled') === true) {
+          $('#timer-plus').removeClass('disabled');
+          $('#timer-plus').addClass('enabled');
+        }
+        clearTimers();
+        sessionValue -= 1;
+        initDisplay();
+        break;
+    }
+  });
 
-    $(this).addClass('disabled');
-    $('#timer-pause').removeClass('disabled');
+  $('#timer-plus').click(function() {
+    switch (true) {
+      case sessionValue > 24:
+        $(this).removeClass('enabled');
+        $(this).addClass('disabled');
+        $('#timer-minus').removeClass('disabled');
+        $('#timer-minus').addClass('enabled');
+        break;
+      default:
+        if ($('#timer-minus').hasClass('disabled') === true) {
+          $('#timer-minus').removeClass('disabled');
+          $('#timer-minus').addClass('enabled');
+        }
+        clearTimers();
+        sessionValue += 1;
+        initDisplay();
+        break;
+    }
   });
 
   $('#timer-reset').click(function() {
 
-    // reset timer
-    //var duration = convertValueToMinutes(sessTime);
-    //$clock.countdown(duration);
     resetTimer();
-    $('#timer-resume').removeClass('disabled');
-    $('#timer-resume').removeClass('active');
-    $('#timer-pause').removeClass('disabled');
-    $('#timer-pause').removeClass('active');
-  });
-
-  $('#timer-pause').click(function() {
-    // pause timer
-
-    $(this).addClass('disabled');
-    $('#timer-resume').removeClass('disabled');
+    $('#timer-minus').removeClass('disabled');
+    $('#timer-minus').addClass('enabled');
+    $('#timer-plus').removeClass('disabled');
+    $('#timer-plus').addClass('enabled');
   });
 
   /*
