@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   // updateially set pomodoro variables
 
-  var sessionValue = 30;
+  var sessionValue = 1;
   var sessionBreakValue = 5;
   var setBreakValue = 3;
   var setValue = 5;
@@ -21,31 +21,11 @@ $(document).ready(function() {
   POMODORO CALL MAIN DRIVER
   */
 
-  console.log(valueToTime(sessionValue).timeSecs);
-  updateClock(valueToTime(sessionValue).timeSecs);
-
-
   //END DRIVER
 
   /*
   SUPPORT FUNCTIONS
   */
-
-  var timeinterval = setInterval(updateClock, 1000, valueToTime(sessionValue).timeSecs);
-
-  function updateClock(endtime) {
-    console.log(endtime);
-    var t = getTimeRemaining(endtime);
-    var content = 'days: ' + t.days + '<br>' +
-      'hours: ' + t.hours + '<br>' +
-      'minutes: ' + t.mins + '<br>' +
-      'seconds: ' + t.secs;
-    $('#clockdiv').html(content);
-
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
-    }
-  }
 
   /*
   CONVERT VALUES TO ENDTIME
@@ -54,14 +34,10 @@ $(document).ready(function() {
   function valueToTime(num) {
 
     var secMs = (num * 1000);
-    //console.log(secMs);
     var minMs = (num * 60 * 1000);
-    //console.log(minMs);
 
     var timeSecs = new Date(Date.now() + secMs);
-    //console.log(timeSecs);
     var timeMins = new Date(Date.now() + minMs);
-    //console.log(timeMins);
 
     return {
       timeDate: new Date(Date.now()),
@@ -96,8 +72,46 @@ $(document).ready(function() {
 
   //resetTimer();
   function resetTimer() {
+    console.log('resetTimer');
 
+    for (var j = 1; j < 99999; j++) {
+      window.clearInterval(j);
+    }
+
+    startTimers();
+
+    function startTimers() {
+      console.log('startTimers');
+      $('.minutes').text('01');
+      $('.seconds').text('00');
+      $('#sessText').text('Session In Progress');
+      $.ionSound.play('start');
+
+      //sessions
+      var sessionInterval =
+        setInterval(updateSessionClock, 1000, valueToTime(sessionValue).timeMins);
+
+      function updateSessionClock(endtime) {
+        var t = getTimeRemaining(endtime);
+
+        $('.minutes').text(('0' + t.mins).slice(-2));
+        $('.seconds').text(('0' + t.secs).slice(-2));
+        $.ionSound.play('snap');
+
+        if (t.total <= 0) {
+          clearInterval(sessionInterval);
+          $.ionSound.play('finish');
+          $('.minutes').text('01');
+          $('.seconds').text('00');
+          $('#sessText').text('Start Session');
+        }
+      }
+
+    }
+
+    console.log('END resetTimer');
   }
+
   /*
   POMODORO SETUP FUNCTION
   */
@@ -119,6 +133,13 @@ $(document).ready(function() {
   TIMER CONTROLS
   */
 
+  $('#timer-resume').click(function() {
+    //resume timer
+
+    $(this).addClass('disabled');
+    $('#timer-pause').removeClass('disabled');
+  });
+
   $('#timer-reset').click(function() {
 
     // reset timer
@@ -129,13 +150,6 @@ $(document).ready(function() {
     $('#timer-resume').removeClass('active');
     $('#timer-pause').removeClass('disabled');
     $('#timer-pause').removeClass('active');
-  });
-
-  $('#timer-resume').click(function() {
-    //resume timer
-
-    $(this).addClass('disabled');
-    $('#timer-pause').removeClass('disabled');
   });
 
   $('#timer-pause').click(function() {
@@ -222,15 +236,14 @@ PANEL CONTROLS
   var soundLocation = 'http://mobilecreature-cdn.appspot.com/pomodoro/media/sounds/';
 
   $.ionSound({
-    sounds: [{
-      name: 'bell_ring'
-    }, {
-        name: 'snap'
-      }, {
-        name: 'computer_error'
-      }],
+    sounds: [
+      { name: 'bell_ring', alias: 'start' },
+      { name: 'bell_ring', loop: 3, alias: 'finish' },
+      { name: 'snap' },
+      { name: 'computer_error' }
+    ],
     volume: 0.1,
-    multiplay: false,
+    multiplay: true,
     path: soundLocation,
     preload: true
   });

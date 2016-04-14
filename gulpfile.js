@@ -205,9 +205,9 @@ function startBrowserSync() {
             config.css
         ],
         ghostMode: {
-            clicks: true,
+            clicks: false,
             location: false,
-            forms: true,
+            forms: false,
             scroll: true
         },
         injectChanges: true,
@@ -215,10 +215,11 @@ function startBrowserSync() {
         logLevel: 'debug',
         logPrefix: '*** browserSync',
         notify: true,
+        reloadOnRestart: true,
         reloadDelay: 3000,
         open: false,
         scrollRestoreTechnique: 'cookie',
-        scrollProportionally: 'true'
+        scrollProportionally: true
     };
 
     browserSync(options);

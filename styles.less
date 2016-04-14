@@ -10,8 +10,8 @@
 @h2Color: darkgreen;
 @h2ShadowColor: darkred;
 
-@h3Color: darkgreen;
-@h3ShadowColor: limegreen;
+@h3Color: limegreen;
+@h3ShadowColor: darkgreen;
 
 @navColor: forestgreen;
 @navColorHover: firebrick;
@@ -220,4 +220,26 @@ ul.nav li a {
 	& > span.main-control {
 	margin-top: -10px;
 	}
+
+}
+
+#clockdiv{
+	font-family: sans-serif;
+	color: #fff;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+  & > div {
+    padding: 10px;
+    border-radius: 3px;
+    background: #F2DEDE;
+    display: inline-block;
+    & > span {
+      padding: 15px;
+      border-radius: 3px;
+      background: #A94442;
+      display: inline-block;
+    }
+  }
 }

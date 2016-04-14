@@ -135,8 +135,16 @@
 
       <div>
         <h3 id="clockdiv">
-          Mins: <span class="minutes"></span><br>
-          Secs: <span class="seconds"></span>
+
+          <div>
+            <span class="minutes">01</span>
+            <div class="">Min</div>
+          </div>
+          <div>
+            <span class="seconds">00</span>
+            <div class="">Sec</div>
+          </div>
+
         </h3>
       </div>
 
@@ -176,8 +184,8 @@
             <!--begin panel body-->
             <div class="panel-body">
 
-              <h3 class="panel-title">RESET / PAUSE / RESUME</h3>
-              <h4>Default - 2 Sets - 3 Sessions - 1 Set Breaks (15 Minute) - 2 Session Breaks (5 Minute)</h4>
+              <h3 class="panel-title">+MINUTES / RESET / -MINUTES</h3>
+              <h4>Default - 25 Minutes</h4>
 
             </div>
             <!--end panel body-->
@@ -190,26 +198,26 @@
               <!--begin btn-group-->
               <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
-                <div class="btn-group" role="group">
+               <div class="btn-group" role="group">
 
-                  <button id="timer-reset" type="button" class="btn btn-success btn-lg">
-                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                  <button id="timer-minus" class="btn btn-success btn-lg" type="button">
+                    <span class="glyphicon glyphicon-minus"></span>
                   </button>
 
                 </div>
 
                 <div class="btn-group" role="group">
 
-                  <button id="timer-pause" class="btn btn-danger btn-lg" type="button">
-                    <span class="glyphicon glyphicon-off"></span>
+                  <button id="timer-reset" type="button" class="btn btn-danger btn-lg">
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
                   </button>
 
                 </div>
 
                 <div id="reset" class="btn-group" role="group">
 
-                  <button id="timer-resume" type="button" class="btn btn-success btn-lg">
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                  <button id="timer-plus" type="button" class="btn btn-success btn-lg">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                   </button>
 
                 </div>
