@@ -1,6 +1,6 @@
 /* global $ */
 
-$(document).ready(function() {
+$(document).ready(function () {
 
   // setup time pause variables
   var startTime;
@@ -16,6 +16,11 @@ $(document).ready(function() {
   var sessionBreakValue = 5;
   var setBreakValue = 3;
   var setValue = 5;
+
+  var veryShort = 1;
+  var short = 5;
+  var medium = 15;
+  var standard = 25;
 
   /*
   POMODORO CALL MAIN DRIVER
@@ -141,7 +146,7 @@ $(document).ready(function() {
   TIMER CONTROLS
   */
 
-  $('#timer-minus').click(function() {
+  $('#timer-minus').click(function () {
     switch (true) {
       case sessionValue < 2:
         $(this).removeClass('enabled');
@@ -161,7 +166,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#timer-plus').click(function() {
+  $('#timer-plus').click(function () {
     switch (true) {
       case sessionValue > 24:
         $(this).removeClass('enabled');
@@ -181,7 +186,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#timer-reset').click(function() {
+  $('#timer-reset').click(function () {
 
     resetTimer();
     $('#timer-minus').removeClass('disabled');
@@ -195,7 +200,7 @@ PANEL CONTROLS
 */
 
   // call immediate function to close panels
-  (function() {
+  (function () {
     $('.panel')
       .find('.panel-body')
       .slideUp();
@@ -211,8 +216,30 @@ PANEL CONTROLS
       .addClass('glyphicon-chevron-down');
   })();
 
+  // setup presets
+
+  $(document).on('click', '.veryshort', function (e) {
+    sessionValue = veryShort;
+    initDisplay();
+  });
+
+  $(document).on('click', '.short', function (e) {
+    sessionValue = short;
+    initDisplay();
+  });
+
+  $(document).on('click', '.medium', function (e) {
+    sessionValue = medium;
+    initDisplay();
+  });
+
+  $(document).on('click', '.standard', function (e) {
+    sessionValue = standard;
+    initDisplay();
+  });
+
   // setup click eventS for panels
-  $(document).on('click', '.panel-heading, clickable', function(e) {
+  $(document).on('click', '.main-panel', function (e) {
 
     var $this = $(this);
 
