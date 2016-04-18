@@ -3,10 +3,10 @@
 $(document).ready(function () {
 
   // setup time pause variables
-  var startTime;
+  //var startTime;
 
-  var timerTime = new Date();
-  var breakTime = new Date();
+  //var timerTime = new Date();
+  //var breakTime = new Date();
 
   // pomodoro variables
   var sessionValue = 25;
@@ -16,6 +16,11 @@ $(document).ready(function () {
   var medium = 15;
   var standard = 25;
 
+  // sounds
+  var snap = 'snap';
+  var start = 'start';
+  var finish = 'finish';
+
   /*
   FIRST DISPLAY INIT
   */
@@ -23,7 +28,7 @@ $(document).ready(function () {
   $('.seconds').text('00');
 
   /*
-  CONVERT VALUES TO ENDTIME
+  CONVERT VALUES TO TIME
   */
 
   function valueToTime(num) {
@@ -95,7 +100,7 @@ $(document).ready(function () {
       console.log('startTimers');
       initDisplay();
       $('#sessText').text('Session In Progress');
-      $.ionSound.play('start');
+      $.ionSound.play(start);
 
       //sessions
       var sessionInterval =
@@ -106,11 +111,11 @@ $(document).ready(function () {
 
         $('.minutes').text(('0' + t.mins).slice(-2));
         $('.seconds').text(('0' + t.secs).slice(-2));
-        $.ionSound.play('snap');
+        $.ionSound.play(snap);
 
         if (t.total <= 0) {
           clearInterval(sessionInterval);
-          $.ionSound.play('finish');
+          $.ionSound.play(finish);
           initDisplay();
         }
       }
@@ -273,7 +278,7 @@ PANEL CONTROLS
       { name: 'computer_error' }
     ],
     volume: 0.1,
-    multiplay: true,
+    multiplay: false,
     path: soundLocation,
     preload: true
   });
