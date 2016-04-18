@@ -220,7 +220,6 @@ ul.nav li a {
 	& > span.main-control {
 	margin-top: -10px;
 	}
-
 }
 
 #clockdiv{
@@ -238,8 +237,30 @@ ul.nav li a {
     & > span {
       padding: 15px;
       border-radius: 3px;
-      background: #A94442;
+      background: firebrick;
       display: inline-block;
     }
   }
 }
+
+.alert {
+	& > a {
+		&:link {
+			color: @h1ShadowColor;
+			text-decoration: none;
+		}
+		&:hover {
+			color: @h1ShadowColor;;
+			text-decoration: none;
+		}
+		&:visited {
+			color: @h1ShadowColor;
+			text-decoration: none;
+		}
+		&:active {
+			color: @h1ShadowColor;
+			text-decoration: none;
+		}
+	}
+}
+

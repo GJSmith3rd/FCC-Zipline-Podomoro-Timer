@@ -6,32 +6,21 @@ $(document).ready(function () {
   var startTime;
 
   var timerTime = new Date();
-  var timerMs;
   var breakTime = new Date();
-  var breakMs;
 
-  // update pomodoro variables
-  var defaultValue = 15;
-  var sessionValue = 15;
-  var sessionBreakValue = 5;
-  var setBreakValue = 3;
-  var setValue = 5;
+  // pomodoro variables
+  var sessionValue = 25;
 
-  var veryShort = 1;
+  var veryshort = 1;
   var short = 5;
   var medium = 15;
   var standard = 25;
 
   /*
-  POMODORO CALL MAIN DRIVER
+  FIRST DISPLAY INIT
   */
   $('.minutes').text(('0' + sessionValue).slice(-2));
   $('.seconds').text('00');
-  //END DRIVER
-
-  /*
-  SUPPORT FUNCTIONS
-  */
 
   /*
   CONVERT VALUES TO ENDTIME
@@ -76,12 +65,18 @@ $(document).ready(function () {
 
   }
 
+  /*
+  CLEAR TIMERS
+  */
   function clearTimers() {
     for (var j = 1; j < 99999; j++) {
       window.clearInterval(j);
     }
   }
 
+  /*
+  DISPLAY UPDATER
+  */
   function initDisplay() {
     $('.minutes').text(('0' + sessionValue).slice(-2));
     $('.seconds').text('00');
@@ -122,30 +117,11 @@ $(document).ready(function () {
 
     }
 
-    console.log('END resetTimer');
-  }
-
-  /*
-  POMODORO SETUP FUNCTION
-  */
-  function sessTimer(timerSecs, selector) {
-    /*
-    TIMER EVENTS
-    */
-
-  }
-
-  function breakTimer(breakMins, selector) {
-    /*
-    TIMER EVENTS
-    */
-
   }
 
   /*
   TIMER CONTROLS
   */
-
   $('#timer-minus').click(function () {
     switch (true) {
       case sessionValue < 2:
@@ -195,7 +171,7 @@ $(document).ready(function () {
     $('#timer-plus').addClass('enabled');
   });
 
-  /*
+/*
 PANEL CONTROLS
 */
 
@@ -217,40 +193,36 @@ PANEL CONTROLS
   })();
 
   // setup presets
-
-  $(document).on('click', '.veryshort', function (e) {
-    sessionValue = veryShort;
-    initDisplay();
-  });
-
-  $(document).on('click', '.short', function (e) {
-    sessionValue = short;
-    initDisplay();
-  });
-
-  $(document).on('click', '.medium', function (e) {
-    sessionValue = medium;
-    initDisplay();
-  });
-
-  $(document).on('click', '.standard', function (e) {
-    sessionValue = standard;
-    initDisplay();
-  });
+  $('.veryshort, .short, .medium, .standard').click(function (e) {
+      var $this = $(this);
+      switch (true) {
+        case $this.hasClass('veryshort'):
+          sessionValue = veryshort;
+          break;
+        case $this.hasClass('short'):
+          sessionValue = short;
+          break;
+        case $this.hasClass('medium'):
+          sessionValue = medium;
+          break;
+        case $this.hasClass('standard'):
+          sessionValue = standard;
+          break;
+      }
+      clearTimers();
+      initDisplay();
+    });
 
   // setup click eventS for panels
-  $(document).on('click', '.main-panel', function (e) {
-
+  $('.main-panel').click(function (e) {
     var $this = $(this);
-
-    if (!$this.hasClass('panel-collapsed')) {
-
-      panelClosed();
-
-    } else {
-
-      panelOpen();
-
+    switch (true) {
+      case !$this.hasClass('panel-collapsed'):
+        panelClosed();
+        break;
+      default:
+        panelOpen();
+        break;
     }
 
     //close
