@@ -9,7 +9,10 @@ $(document).ready(function () {
   //var breakTime = new Date();
 
   // pomodoro variables
-  var sessionValue = 25;
+  var sessionValue = 10;
+  var sessionBreakValue = 3;
+  var setValue = 3;
+  var setBreakValue = 3;
 
   var veryshort = 1;
   var short = 5;
@@ -74,8 +77,11 @@ $(document).ready(function () {
   CLEAR TIMERS
   */
   function clearTimers() {
-    for (var j = 1; j < 99999; j++) {
+    for (var j = 1; j < 99; j++) {
       window.clearInterval(j);
+    }
+    for (var k = 1; k < 99; k++) {
+      window.clearTimeout(k);
     }
   }
 
@@ -94,32 +100,42 @@ $(document).ready(function () {
 
     clearTimers();
     initDisplay();
-    startTimers();
+    //startTimers();
 
-    function startTimers() {
-      console.log('startTimers');
-      initDisplay();
-      $('#sessText').text('Session In Progress');
+    for (var i = 0; i <= 5; i++) {
       $.ionSound.play(start);
+      setTimeout((function (iVal) {
 
-      //sessions
-      var sessionInterval =
-        setInterval(updateSessionClock, 1000, valueToTime(sessionValue).timeMins);
+        return function () {
 
-      function updateSessionClock(endtime) {
-        var t = getTimeRemaining(endtime);
+          console.log(iVal);
+          console.log(valueToTime(sessionValue).timeSecs);
 
-        $('.minutes').text(('0' + t.mins).slice(-2));
-        $('.seconds').text(('0' + t.secs).slice(-2));
-        $.ionSound.play(snap);
-
-        if (t.total <= 0) {
-          clearInterval(sessionInterval);
-          $.ionSound.play(finish);
+          console.log('startTimers');
           initDisplay();
-        }
-      }
+          $('#sessText').text('Session In Progress');
 
+          //sessions
+          var sessionInterval =
+            setInterval(updateSessionClock, 1000, valueToTime(sessionValue).timeSecs);
+
+          function updateSessionClock(endtime) {
+            var t = getTimeRemaining(endtime);
+
+            $('.minutes').text(('0' + t.mins).slice(-2));
+            $('.seconds').text(('0' + t.secs).slice(-2));
+            $.ionSound.play(snap);
+
+            if (t.total <= 0) {
+              clearInterval(sessionInterval);
+              initDisplay();
+            }
+          }
+
+        };
+
+      })(i), sessionValue * i * 1000);
+      //$.ionSound.play(finish);
     }
 
   }
@@ -176,9 +192,9 @@ $(document).ready(function () {
     $('#timer-plus').addClass('enabled');
   });
 
-/*
-PANEL CONTROLS
-*/
+  /*
+  PANEL CONTROLS
+  */
 
   // call immediate function to close panels
   (function () {
@@ -199,24 +215,24 @@ PANEL CONTROLS
 
   // setup presets
   $('.veryshort, .short, .medium, .standard').click(function (e) {
-      var $this = $(this);
-      switch (true) {
-        case $this.hasClass('veryshort'):
-          sessionValue = veryshort;
-          break;
-        case $this.hasClass('short'):
-          sessionValue = short;
-          break;
-        case $this.hasClass('medium'):
-          sessionValue = medium;
-          break;
-        case $this.hasClass('standard'):
-          sessionValue = standard;
-          break;
-      }
-      clearTimers();
-      initDisplay();
-    });
+    var $this = $(this);
+    switch (true) {
+      case $this.hasClass('veryshort'):
+        sessionValue = veryshort;
+        break;
+      case $this.hasClass('short'):
+        sessionValue = short;
+        break;
+      case $this.hasClass('medium'):
+        sessionValue = medium;
+        break;
+      case $this.hasClass('standard'):
+        sessionValue = standard;
+        break;
+    }
+    clearTimers();
+    initDisplay();
+  });
 
   // setup click eventS for panels
   $('.main-panel').click(function (e) {
