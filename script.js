@@ -9,7 +9,7 @@ $(document).ready(function () {
   //var breakTime = new Date();
 
   // pomodoro variables
-  var sessionValue = 10;
+  var sessionValue = 3;
   var sessionBreakValue = 3;
   var setValue = 3;
   var setBreakValue = 3;
@@ -24,69 +24,31 @@ $(document).ready(function () {
   var start = 'start';
   var finish = 'finish';
 
-  /*
-  FIRST DISPLAY INIT
-  */
-  $('.minutes').text(('0' + sessionValue).slice(-2));
-  $('.seconds').text('00');
+  initDisplay();
 
   /*
-  CONVERT VALUES TO TIME
+  jQuery PANEL CONTROLS (immediate function)
   */
 
-  function valueToTime(num) {
+  // call immediate function to close panels
+  (function () {
+    $('.panel')
+      .find('.panel-body')
+      .slideUp();
 
-    var secMs = (num * 1000);
-    var minMs = (num * 60 * 1000);
+    $('.panel').children('.clickable')
+      .addBack()
+      .addClass('panel-collapsed');
 
-    var timeSecs = new Date(Date.now() + secMs);
-    var timeMins = new Date(Date.now() + minMs);
-
-    return {
-      timeDate: new Date(Date.now()),
-      timeSecs: timeSecs,
-      timeMins: timeMins
-
-    };
-
-  }
-
-  /*
-  CONVERT TIME TO MILLISECONDS
-  */
-
-  function getTimeRemaining(endtime) {
-
-    var t = Date.parse(endtime) - Date.parse(new Date());
-    var secs = Math.floor((t / 1000) % 60);
-    var mins = Math.floor((t / 1000 / 60) % 60);
-    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-    var days = Math.floor(t / (1000 * 60 * 60 * 24));
-
-    return {
-      'total': t,
-      'days': days,
-      'hours': hours,
-      'mins': mins,
-      'secs': secs
-    };
-
-  }
+    $('.panel').children('.clickable')
+      .addBack()
+      .find('i')
+      .removeClass('glyphicon-chevron-up')
+      .addClass('glyphicon-chevron-down');
+  })();
 
   /*
-  CLEAR TIMERS
-  */
-  function clearTimers() {
-    for (var j = 1; j < 99; j++) {
-      window.clearInterval(j);
-    }
-    for (var k = 1; k < 99; k++) {
-      window.clearTimeout(k);
-    }
-  }
-
-  /*
-  DISPLAY UPDATER
+  INIT DISPLAY
   */
   function initDisplay() {
     $('.minutes').text(('0' + sessionValue).slice(-2));
@@ -96,26 +58,34 @@ $(document).ready(function () {
 
   //resetTimer();
   function resetTimer() {
-    console.log('resetTimer');
 
     clearTimers();
     initDisplay();
-    //startTimers();
+    $.ionSound.play(start);
 
-    for (var i = 0; i <= 5; i++) {
-      $.ionSound.play(start);
+    var currentSet = 1;
+
+    for (var i = 0; i < setValue; i++) {
+      //top of loop (number of sets)
+
+      // top of setInterval (length of session)
       setTimeout((function (iVal) {
 
         return function () {
-
           console.log(iVal);
           console.log(valueToTime(sessionValue).timeSecs);
-
           console.log('startTimers');
-          initDisplay();
-          $('#sessText').text('Session In Progress');
 
-          //sessions
+          if ((currentSet === setValue) && (i === setValue - 1)) {
+            $.ionSound.play(finish);
+            $('#sessText').text('Session Over');
+          } else {
+            $('#sessText').text('Session ' + currentSet + ' In Progress');
+          }
+
+          currentSet += 1;
+
+          //top setInterval (timer update - 1sec)
           var sessionInterval =
             setInterval(updateSessionClock, 1000, valueToTime(sessionValue).timeSecs);
 
@@ -128,20 +98,34 @@ $(document).ready(function () {
 
             if (t.total <= 0) {
               clearInterval(sessionInterval);
-              initDisplay();
             }
           }
+          //bottom of setInterval (update timer - 1sec)
 
         };
 
       })(i), sessionValue * i * 1000);
-      //$.ionSound.play(finish);
-    }
+      //bottom of setTimeout (length of session)
 
+    }
+    //bottom of loop (number of sets)
+    $('#sessText').text('Session Over');
   }
+  //end function resetTimer()
 
   /*
-  TIMER CONTROLS
+  jQuery RESET TIMER
+  */
+  $('#timer-reset').click(function () {
+    $('#timer-minus').removeClass('disabled');
+    $('#timer-minus').addClass('enabled');
+    $('#timer-plus').removeClass('disabled');
+    $('#timer-plus').addClass('enabled');
+    resetTimer();
+  });
+
+  /*
+  jQuery TIMER CONTROLS
   */
   $('#timer-minus').click(function () {
     switch (true) {
@@ -183,37 +167,9 @@ $(document).ready(function () {
     }
   });
 
-  $('#timer-reset').click(function () {
-
-    resetTimer();
-    $('#timer-minus').removeClass('disabled');
-    $('#timer-minus').addClass('enabled');
-    $('#timer-plus').removeClass('disabled');
-    $('#timer-plus').addClass('enabled');
-  });
-
-  /*
-  PANEL CONTROLS
-  */
-
-  // call immediate function to close panels
-  (function () {
-    $('.panel')
-      .find('.panel-body')
-      .slideUp();
-
-    $('.panel').children('.clickable')
-      .addBack()
-      .addClass('panel-collapsed');
-
-    $('.panel').children('.clickable')
-      .addBack()
-      .find('i')
-      .removeClass('glyphicon-chevron-up')
-      .addClass('glyphicon-chevron-down');
-  })();
-
-  // setup presets
+/*
+jQuery PRESET CONTROLS
+*/
   $('.veryshort, .short, .medium, .standard').click(function (e) {
     var $this = $(this);
     switch (true) {
@@ -298,5 +254,60 @@ $(document).ready(function () {
     path: soundLocation,
     preload: true
   });
+
+  /*
+  CONVERT VALUES TO TIME
+  */
+
+  function valueToTime(num) {
+
+    var secMs = (num * 1000);
+    var minMs = (num * 60 * 1000);
+
+    var timeSecs = new Date(Date.now() + secMs);
+    var timeMins = new Date(Date.now() + minMs);
+
+    return {
+      timeDate: new Date(Date.now()),
+      timeSecs: timeSecs,
+      timeMins: timeMins
+
+    };
+
+  }
+
+  /*
+  CONVERT TIME TO MILLISECONDS
+  */
+
+  function getTimeRemaining(endtime) {
+
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var secs = Math.floor((t / 1000) % 60);
+    var mins = Math.floor((t / 1000 / 60) % 60);
+    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+    return {
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'mins': mins,
+      'secs': secs
+    };
+
+  }
+
+  /*
+  CLEAR TIMERS
+  */
+  function clearTimers() {
+    for (var j = 1; j < 99; j++) {
+      window.clearInterval(j);
+    }
+    for (var k = 1; k < 99; k++) {
+      window.clearTimeout(k);
+    }
+  }
 
 });
