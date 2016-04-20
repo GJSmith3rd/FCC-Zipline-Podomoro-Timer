@@ -66,6 +66,18 @@ $(document).ready(function () {
   }
 
   /*
+  CLEAR TIMERS
+  */
+  function clearTimers() {
+    for (var j = 1; j < 999; j++) {
+      window.clearInterval(j);
+    }
+    for (var k = 1; k < 999; k++) {
+      window.clearTimeout(k);
+    }
+  }
+
+  /*
   MAIN TIMER START/RESTART
   */
 
@@ -79,6 +91,7 @@ $(document).ready(function () {
     var currentSet = 0;
 
     for (var i = 0; i < setValue; i++) {
+
       //top of loop (number of sets)
 
       // top of setInterval (length of session)
@@ -147,7 +160,7 @@ $(document).ready(function () {
   /*
   jQuery START/RESTART TIMER
   */
-  $('#timer-reset').click(function () {
+  $('#timer-startReset').click(function () {
     $('#timer-minus').removeClass('disabled');
     $('#timer-minus').addClass('enabled');
     $('#timer-plus').removeClass('disabled');
@@ -199,8 +212,8 @@ $(document).ready(function () {
   });
 
   /*
-  jQuery PRESET CONTROLS
-  */
+jQuery PRESETS CONTROLS
+*/
   $('.short, .medium, .standard, .long').click(function (e) {
     var $this = $(this);
     switch (true) {
@@ -221,8 +234,10 @@ $(document).ready(function () {
         sessionBreakValue = longB;
         break;
     }
+
     clearTimers();
     initDisplay();
+
   });
 
   // jQuery PANEL CHEVRONS
@@ -237,7 +252,7 @@ $(document).ready(function () {
         break;
     }
 
-    //close
+    //close panel
     function panelClosed() {
       $this.parents('.panel')
         .find('.panel-body')
@@ -254,7 +269,7 @@ $(document).ready(function () {
         .addClass('glyphicon-chevron-down');
     }
 
-    //open
+    //open panel
     function panelOpen() {
       $this.parents('.panel')
         .find('.panel-body')
@@ -280,13 +295,11 @@ $(document).ready(function () {
   $.ionSound({
     sounds: [
       { name: 'bell_ring', alias: 'start' },
-      { name: 'bell_ring', loop: 2, alias: 'break' },
       { name: 'bell_ring', loop: 3, alias: 'finish' },
-      { name: 'snap' },
-      { name: 'computer_error' }
+      { name: 'snap' }
     ],
     volume: 0.1,
-    multiplay: false,
+    multiplay: true,
     path: soundLocation,
     preload: true
   });
@@ -294,7 +307,8 @@ $(document).ready(function () {
   /*
   CONVERT VALUES TO TIME
   */
-
+  // minutes for timer (timeMins)
+  // seconds for testing and debugging (timeSecs)
   function valueToTime(num) {
 
     var secMs = (num * 1000);
@@ -332,18 +346,6 @@ $(document).ready(function () {
       'secs': secs
     };
 
-  }
-
-  /*
-  CLEAR TIMERS
-  */
-  function clearTimers() {
-    for (var j = 1; j < 99; j++) {
-      window.clearInterval(j);
-    }
-    for (var k = 1; k < 99; k++) {
-      window.clearTimeout(k);
-    }
   }
 
 });
