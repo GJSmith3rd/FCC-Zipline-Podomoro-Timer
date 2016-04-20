@@ -3,8 +3,8 @@
 $(document).ready(function () {
 
   // timer default setup
-  var sessionValue = 25;
-  var sessionBreakValue = 5;
+  var sessionValue = 1;
+  var sessionBreakValue = 1;
   var setValue = 4;
 
   // timer preset sessions
@@ -18,6 +18,9 @@ $(document).ready(function () {
   var mediumB = 4;
   var standardB = 5;
   var longB = 10;
+
+  // breakTime indicator for bell_ring
+  var breakTime = false;
 
   // sounds
   var snapSound = 'snap';
@@ -52,8 +55,8 @@ $(document).ready(function () {
   jQuery INIT DISPLAY
   */
   function initDisplay() {
-    $('.minutes').text(('00').slice(-2));
-    $('.seconds').text(('0' + sessionValue).slice(-2));
+    $('.minutes').text(('0' + sessionValue).slice(-2));
+    $('.seconds').text(('00').slice(-2));
     $('#sessText').text('Start Session');
   }
 
@@ -61,8 +64,8 @@ $(document).ready(function () {
   jQuery REFRESH DISPLAY
   */
   function refreshDisplay() {
-    $('.minutes').text(('00').slice(-2));
-    $('.seconds').text(('0' + sessionValue).slice(-2));
+    $('.minutes').text(('0' + sessionValue).slice(-2));
+    $('.seconds').text(('00').slice(-2));
   }
 
   /*
@@ -87,6 +90,7 @@ $(document).ready(function () {
     clearTimers();
     initDisplay();
     $.ionSound.play(startSound);
+    breakTime = false;
 
     var currentSet = 0;
 
@@ -98,17 +102,26 @@ $(document).ready(function () {
       setTimeout((function (iVal) {
 
         return function () {
-          console.log(iVal);
-          console.log(valueToTime(sessionValue).timeSecs);
-          console.log('startTimers');
 
           currentSet += 1;
 
           //top setInterval (timer update - 1sec)
+
+          /*
+          FOR PRODUCTION USE IN MINUTES
+          */
           var sessionInterval =
             setInterval(updateSessionClock, 1000,
-              valueToTime(sessionValue).timeSecs,
-              valueToTime(sessionValue + sessionBreakValue).timeSecs);
+              valueToTime(sessionValue).timeMins,
+              valueToTime(sessionValue + sessionBreakValue).timeMins);
+
+          /*
+          FOR TESTING AND DEBUGGING USE IN SECONDS
+          */
+          // var sessionInterval =
+          //   setInterval(updateSessionClock, 1000,
+          //     valueToTime(sessionValue).timeSecs,
+          //     valueToTime(sessionValue + sessionBreakValue).timeSecs);
 
           function updateSessionClock(sTime, bTime) {
             var t = getTimeRemaining(sTime);
@@ -120,18 +133,25 @@ $(document).ready(function () {
                 initDisplay();
                 $.ionSound.play(finishSound);
                 break;
-
-              case t.total <= 0 && b.total >= 1:
+              case t.total <= 0 && breakTime:
                 $('.minutes').text(('0' + b.mins).slice(-2));
                 $('.seconds').text(('0' + b.secs).slice(-2));
                 $('#sessText').text('Break: ' + currentSet);
                 $.ionSound.play(startSound);
+                breakTime = false;
+                break;
+              case t.total <= 0 && b.total > 1:
+                $('.minutes').text(('0' + b.mins).slice(-2));
+                $('.seconds').text(('0' + b.secs).slice(-2));
+                $('#sessText').text('Break: ' + currentSet);
+                $.ionSound.play(snapSound);
                 break;
               case t.total > 0:
                 $('.minutes').text(('0' + t.mins).slice(-2));
                 $('.seconds').text(('0' + t.secs).slice(-2));
                 $('#sessText').text('Session: ' + currentSet);
                 $.ionSound.play(snapSound);
+                breakTime = true;
                 break;
               case t.total <= 0:
                 clearInterval(sessionInterval);
@@ -148,7 +168,15 @@ $(document).ready(function () {
 
         };
 
-      })(i), (sessionValue + sessionBreakValue) * i * 1000);
+        /*
+        FOR PRODUCTION USE IN MINUTES
+        */
+      })(i), (sessionValue + sessionBreakValue) * i * 1000 * 60);
+
+      /*
+      FOR TESTING AND DEBUGGING USE IN SECS
+      */
+      // })(i), (sessionValue + sessionBreakValue) * i * 1000)        ;
       //bottom of setTimeout (length of session)
 
     }
