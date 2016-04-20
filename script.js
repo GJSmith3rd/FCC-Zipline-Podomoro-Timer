@@ -2,35 +2,36 @@
 
 $(document).ready(function () {
 
-  // setup time pause variables
-  //var startTime;
+  // timer default setup
+  var sessionValue = 25;
+  var sessionBreakValue = 5;
+  var setValue = 4;
 
-  //var timerTime = new Date();
-  //var breakTime = new Date();
+  // timer preset sessions
+  var shortS = 10;
+  var mediumS = 20;
+  var standardS = 25;
+  var longS = 50;
 
-  // pomodoro variables
-  var sessionValue = 7;
-  var sessionBreakValue = 3;
-  var setValue = 3;
-  var setBreakValue = 3;
-
-  var veryshort = 1;
-  var short = 5;
-  var medium = 15;
-  var standard = 25;
+  // timer preset breaks
+  var shortB = 3;
+  var mediumB = 4;
+  var standardB = 5;
+  var longB = 10;
 
   // sounds
-  var snap = 'snap';
-  var start = 'start';
-  var finish = 'finish';
+  var snapSound = 'snap';
+  var startSound = 'start';
+  var finishSound = 'finish';
 
+  // first timer setup
   initDisplay();
 
   /*
   jQuery PANEL CONTROLS (immediate function)
   */
 
-  // call immediate function to close panels
+  // jQuery Immediate function to close panels
   (function () {
     $('.panel')
       .find('.panel-body')
@@ -48,7 +49,7 @@ $(document).ready(function () {
   })();
 
   /*
-  INIT DISPLAY
+  jQuery INIT DISPLAY
   */
   function initDisplay() {
     $('.minutes').text(('00').slice(-2));
@@ -57,19 +58,23 @@ $(document).ready(function () {
   }
 
   /*
-  REFRESH DISPLAY
+  jQuery REFRESH DISPLAY
   */
   function refreshDisplay() {
     $('.minutes').text(('00').slice(-2));
     $('.seconds').text(('0' + sessionValue).slice(-2));
   }
 
+  /*
+  MAIN TIMER START/RESTART
+  */
+
   //resetTimer();
   function resetTimer() {
 
     clearTimers();
     initDisplay();
-    $.ionSound.play(start);
+    $.ionSound.play(startSound);
 
     var currentSet = 0;
 
@@ -97,35 +102,31 @@ $(document).ready(function () {
             var b = getTimeRemaining(bTime);
 
             switch (true) {
+              case t.total <= 0 && iVal === setValue - 1:
+                clearInterval(sessionInterval);
+                initDisplay();
+                $.ionSound.play(finishSound);
+                break;
 
               case t.total <= 0 && b.total >= 1:
                 $('.minutes').text(('0' + b.mins).slice(-2));
                 $('.seconds').text(('0' + b.secs).slice(-2));
-                $('#sessText').text('Break');
-                $.ionSound.play(snap);
+                $('#sessText').text('Break: ' + currentSet);
+                $.ionSound.play(startSound);
                 break;
               case t.total > 0:
                 $('.minutes').text(('0' + t.mins).slice(-2));
                 $('.seconds').text(('0' + t.secs).slice(-2));
-                $('#sessText').text('Session ' + currentSet);
-                $.ionSound.play(snap);
+                $('#sessText').text('Session: ' + currentSet);
+                $.ionSound.play(snapSound);
                 break;
               case t.total <= 0:
-                if (iVal === setValue - 1) {
-
-                  clearInterval(sessionInterval);
-                  initDisplay();
-                  $.ionSound.play(finish);
-                } else {
-
-                  clearInterval(sessionInterval);
-                  $('.minutes').text(('00').slice(-2));
-                  $('.seconds').text(('00' + sessionValue).slice(-2));
-                  $('#sessText').text('Session ' + currentSet);
-                  $.ionSound.play(snap);
-                  refreshDisplay();
-
-                }
+                clearInterval(sessionInterval);
+                $('.minutes').text(('00').slice(-2));
+                $('.seconds').text(('00' + sessionValue).slice(-2));
+                $('#sessText').text('Session: ' + currentSet);
+                $.ionSound.play(startSound);
+                refreshDisplay();
                 break;
             }
 
@@ -144,7 +145,7 @@ $(document).ready(function () {
   //end function resetTimer()
 
   /*
-  jQuery RESET TIMER
+  jQuery START/RESTART TIMER
   */
   $('#timer-reset').click(function () {
     $('#timer-minus').removeClass('disabled');
@@ -200,27 +201,31 @@ $(document).ready(function () {
   /*
   jQuery PRESET CONTROLS
   */
-  $('.veryshort, .short, .medium, .standard').click(function (e) {
+  $('.short, .medium, .standard, .long').click(function (e) {
     var $this = $(this);
     switch (true) {
-      case $this.hasClass('veryshort'):
-        sessionValue = veryshort;
-        break;
       case $this.hasClass('short'):
-        sessionValue = short;
+        sessionValue = shortS;
+        sessionBreakValue = shortB;
         break;
       case $this.hasClass('medium'):
-        sessionValue = medium;
+        sessionValue = mediumS;
+        sessionBreakValue = mediumB;
         break;
       case $this.hasClass('standard'):
-        sessionValue = standard;
+        sessionValue = standardS;
+        sessionBreakValue = standardB;
+        break;
+      case $this.hasClass('long'):
+        sessionValue = longS;
+        sessionBreakValue = longB;
         break;
     }
     clearTimers();
     initDisplay();
   });
 
-  // setup click eventS for panels
+  // jQuery PANEL CHEVRONS
   $('.main-panel').click(function (e) {
     var $this = $(this);
     switch (true) {
@@ -268,13 +273,14 @@ $(document).ready(function () {
   });
 
   /*
-  SET IONSOUND CONFIG
+  IONSOUND CONFIG
   */
   var soundLocation = 'http://mobilecreature-cdn.appspot.com/pomodoro/media/sounds/';
 
   $.ionSound({
     sounds: [
       { name: 'bell_ring', alias: 'start' },
+      { name: 'bell_ring', loop: 2, alias: 'break' },
       { name: 'bell_ring', loop: 3, alias: 'finish' },
       { name: 'snap' },
       { name: 'computer_error' }
