@@ -9,7 +9,7 @@ $(document).ready(function () {
   //var breakTime = new Date();
 
   // pomodoro variables
-  var sessionValue = 3;
+  var sessionValue = 7;
   var sessionBreakValue = 3;
   var setValue = 3;
   var setBreakValue = 3;
@@ -51,8 +51,8 @@ $(document).ready(function () {
   INIT DISPLAY
   */
   function initDisplay() {
-    $('.minutes').text(('0' + sessionValue).slice(-2));
-    $('.seconds').text('00');
+    $('.minutes').text(('00').slice(-2));
+    $('.seconds').text(('0' + sessionValue).slice(-2));
     $('#sessText').text('Start Session');
   }
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
     initDisplay();
     $.ionSound.play(start);
 
-    var currentSet = 1;
+    var currentSet = 0;
 
     for (var i = 0; i < setValue; i++) {
       //top of loop (number of sets)
@@ -76,40 +76,51 @@ $(document).ready(function () {
           console.log(valueToTime(sessionValue).timeSecs);
           console.log('startTimers');
 
-          if ((currentSet === setValue) && (i === setValue - 1)) {
-            $.ionSound.play(finish);
-            $('#sessText').text('Session Over');
-          } else {
-            $('#sessText').text('Session ' + currentSet + ' In Progress');
-          }
-
           currentSet += 1;
 
           //top setInterval (timer update - 1sec)
           var sessionInterval =
-            setInterval(updateSessionClock, 1000, valueToTime(sessionValue).timeSecs);
+            setInterval(updateSessionClock, 1000,
+              valueToTime(sessionValue).timeSecs,
+              valueToTime(sessionValue + sessionBreakValue).timeSecs);
 
-          function updateSessionClock(endtime) {
-            var t = getTimeRemaining(endtime);
+          function updateSessionClock(sTime, bTime) {
+            var t = getTimeRemaining(sTime);
+            var b = getTimeRemaining(bTime);
 
-            $('.minutes').text(('0' + t.mins).slice(-2));
-            $('.seconds').text(('0' + t.secs).slice(-2));
-            $.ionSound.play(snap);
-
-            if (t.total <= 0) {
-              clearInterval(sessionInterval);
+            switch (true) {
+              case t.total <= 0 && b.total >= 1:
+                $('.minutes').text(('0' + b.mins).slice(-2));
+                $('.seconds').text(('0' + b.secs).slice(-2));
+                $('#sessText').text('Break');
+                $.ionSound.play(snap);
+                break;
+              case t.total > 0:
+                $('.minutes').text(('0' + t.mins).slice(-2));
+                $('.seconds').text(('0' + t.secs).slice(-2));
+                $('#sessText').text('Session ' + currentSet);
+                $.ionSound.play(snap);
+                break;
+              case b.total <= 0:
+                $('.minutes').text(('00').slice(-2));
+                $('.seconds').text(('00' + sessionValue).slice(-2));
+                $('#sessText').text('Session ' + currentSet);
+                $.ionSound.play(snap);
+                clearInterval(sessionInterval);
+                break;
             }
+
           }
           //bottom of setInterval (update timer - 1sec)
 
         };
 
-      })(i), sessionValue * i * 1000);
+      })(i), (sessionValue + sessionBreakValue) * i * 1000);
       //bottom of setTimeout (length of session)
 
     }
     //bottom of loop (number of sets)
-    $('#sessText').text('Session Over');
+
   }
   //end function resetTimer()
 
@@ -167,9 +178,9 @@ $(document).ready(function () {
     }
   });
 
-/*
-jQuery PRESET CONTROLS
-*/
+  /*
+  jQuery PRESET CONTROLS
+  */
   $('.veryshort, .short, .medium, .standard').click(function (e) {
     var $this = $(this);
     switch (true) {
