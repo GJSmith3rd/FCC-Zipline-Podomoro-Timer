@@ -3,8 +3,8 @@
 $(document).ready(function () {
 
   // timer default setup
-  var sessionValue = 1;
-  var sessionBreakValue = 1;
+  var sessionValue = 25;
+  var sessionBreakValue = 5;
   var setValue = 4;
 
   // timer preset sessions
@@ -221,7 +221,7 @@ $(document).ready(function () {
 
   $('#timer-plus').click(function () {
     switch (true) {
-      case sessionValue > 24:
+      case sessionValue > 49:
         $(this).removeClass('enabled');
         $(this).addClass('disabled');
         $('#timer-minus').removeClass('disabled');
