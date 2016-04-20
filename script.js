@@ -56,6 +56,14 @@ $(document).ready(function () {
     $('#sessText').text('Start Session');
   }
 
+  /*
+  REFRESH DISPLAY
+  */
+  function refreshDisplay() {
+    $('.minutes').text(('00').slice(-2));
+    $('.seconds').text(('0' + sessionValue).slice(-2));
+  }
+
   //resetTimer();
   function resetTimer() {
 
@@ -89,6 +97,7 @@ $(document).ready(function () {
             var b = getTimeRemaining(bTime);
 
             switch (true) {
+
               case t.total <= 0 && b.total >= 1:
                 $('.minutes').text(('0' + b.mins).slice(-2));
                 $('.seconds').text(('0' + b.secs).slice(-2));
@@ -101,12 +110,22 @@ $(document).ready(function () {
                 $('#sessText').text('Session ' + currentSet);
                 $.ionSound.play(snap);
                 break;
-              case b.total <= 0:
-                $('.minutes').text(('00').slice(-2));
-                $('.seconds').text(('00' + sessionValue).slice(-2));
-                $('#sessText').text('Session ' + currentSet);
-                $.ionSound.play(snap);
-                clearInterval(sessionInterval);
+              case t.total <= 0:
+                if (iVal === setValue - 1) {
+
+                  clearInterval(sessionInterval);
+                  initDisplay();
+                  $.ionSound.play(finish);
+                } else {
+
+                  clearInterval(sessionInterval);
+                  $('.minutes').text(('00').slice(-2));
+                  $('.seconds').text(('00' + sessionValue).slice(-2));
+                  $('#sessText').text('Session ' + currentSet);
+                  $.ionSound.play(snap);
+                  refreshDisplay();
+
+                }
                 break;
             }
 
