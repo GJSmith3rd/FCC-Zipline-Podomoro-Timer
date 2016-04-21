@@ -58,6 +58,7 @@ $(document).ready(function () {
     $('.minutes').text(('0' + sessionValue).slice(-2));
     $('.seconds').text(('00').slice(-2));
     $('#sessText').text('Start Session');
+    $('#tabTitle').text('Pomodoro Timer');
   }
 
   /*
@@ -66,6 +67,28 @@ $(document).ready(function () {
   function refreshDisplay() {
     $('.minutes').text(('0' + sessionValue).slice(-2));
     $('.seconds').text(('00').slice(-2));
+  }
+
+  /*
+  jQuery UPDATE DISPLAY
+  */
+  function updateDisplay(mins, secs, message) {
+    $('.minutes').text(('0' + mins).slice(-2));
+    $('.seconds').text(('0' + secs).slice(-2));
+    $('#sessText').text(message);
+  }
+
+  /*
+    jQuery UPDATE TITLE
+    */
+  function updateTitle(mins, secs, message) {
+    $('#tabTitle').text(
+      message +
+      ' ' +
+      ('0' + mins).slice(-2) +
+      ':' +
+      ('0' + secs).slice(-2)
+    );
   }
 
   /*
@@ -134,30 +157,26 @@ $(document).ready(function () {
                 $.ionSound.play(finishSound);
                 break;
               case t.total <= 0 && breakTime:
-                $('.minutes').text(('0' + b.mins).slice(-2));
-                $('.seconds').text(('0' + b.secs).slice(-2));
-                $('#sessText').text('Break: ' + currentSet);
+                updateDisplay(b.mins, b.secs, 'Break: ' + currentSet);
+                updateTitle(b.mins, b.secs, 'Break');
                 $.ionSound.play(startSound);
                 breakTime = false;
                 break;
               case t.total <= 0 && b.total > 1:
-                $('.minutes').text(('0' + b.mins).slice(-2));
-                $('.seconds').text(('0' + b.secs).slice(-2));
-                $('#sessText').text('Break: ' + currentSet);
+                updateDisplay(b.mins, b.secs, 'Break: ' + currentSet);
+                updateTitle(b.mins, b.secs, 'Break');
                 $.ionSound.play(snapSound);
                 break;
               case t.total > 0:
-                $('.minutes').text(('0' + t.mins).slice(-2));
-                $('.seconds').text(('0' + t.secs).slice(-2));
-                $('#sessText').text('Session: ' + currentSet);
+                updateDisplay(t.mins, t.secs, 'Session: ' + currentSet);
+                updateTitle(t.mins, t.secs, 'Session');
                 $.ionSound.play(snapSound);
                 breakTime = true;
                 break;
               case t.total <= 0:
                 clearInterval(sessionInterval);
-                $('.minutes').text(('00').slice(-2));
-                $('.seconds').text(('00' + sessionValue).slice(-2));
-                $('#sessText').text('Session: ' + currentSet);
+                updateDisplay('00', '00' + sessionValue, 'Session: ' + currentSet);
+                updateTitle('00', '00', 'Session');
                 $.ionSound.play(startSound);
                 refreshDisplay();
                 break;
@@ -316,12 +335,32 @@ jQuery PRESETS CONTROLS
   });
 
   /*
+  jQuery SOUND CONTROLS
+  */
+  $('#sound-off').click(function () {
+    snapSound = 'null';
+    startSound = 'null';
+    finishSound = 'null';
+    $(this).blur();
+    $(this).removeClass('active');
+  });
+
+  $('#sound-on').click(function () {
+    snapSound = 'snap';
+    startSound = 'start';
+    finishSound = 'finish';
+    $(this).blur();
+    $(this).removeClass('active');
+  });
+
+  /*
   IONSOUND CONFIG
   */
   var soundLocation = 'http://mobilecreature-cdn.appspot.com/pomodoro/media/sounds/';
 
   $.ionSound({
     sounds: [
+      { name: '', alias: 'null' },
       { name: 'bell_ring', alias: 'start' },
       { name: 'bell_ring', loop: 3, alias: 'finish' },
       { name: 'snap' }
