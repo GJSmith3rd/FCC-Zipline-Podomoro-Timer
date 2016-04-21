@@ -58,7 +58,8 @@ $(document).ready(function () {
     $('.minutes').text(('0' + sessionValue).slice(-2));
     $('.seconds').text(('00').slice(-2));
     $('#sessText').text('Start Session');
-    $('#tabTitle').text('Pomodoro Timer');
+
+    document.title = 'Pomodoro Timer';
   }
 
   /*
@@ -82,13 +83,12 @@ $(document).ready(function () {
     jQuery UPDATE TITLE
     */
   function updateTitle(mins, secs, message) {
-    $('#tabTitle').text(
-      message +
+
+    document.title = message +
       ' ' +
       ('0' + mins).slice(-2) +
       ':' +
-      ('0' + secs).slice(-2)
-    );
+      ('0' + secs).slice(-2);
   }
 
   /*
