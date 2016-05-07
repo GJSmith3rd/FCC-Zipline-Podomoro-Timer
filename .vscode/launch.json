@@ -6,7 +6,7 @@
     {
       "request": "launch",
       // Name of configuration; appears in the launch configuration drop down menu.
-      "name": "Chrome Ext",
+      "name": "Ext Chrome",
       // Type of configuration. Possible values: "node", "mono".
       "type": "chrome",
       // Workspace relative or absolute path to the program.

@@ -1,4 +1,4 @@
-# [Pomodoro-Timer](http://codepen.io/GJSmith3rd/full/YyxKzQ)
+# [Pomodoro-Timer](http://s.codepen.io/GJSmith3rd/debug/YyxKzQ)
 --------------------------------
 #### A FreeCodeCamp Project.
 
@@ -6,4 +6,4 @@
 --------------------------------
 A mobileCreature and Gilbert Smith project.
 
-Hosted on [CodePen - Pomodoro Timer](http://codepen.io/GJSmith3rd/full/YyxKzQ) and developed by [FreeCodeCamp - GJSmith3rd](http://freecodecamp.com/gjsmith3rd)
+Hosted on [CodePen - Pomodoro Timer](http://codepen.io/GJSmith3rd) and developed by [FreeCodeCamp - GJSmith3rd](http://freecodecamp.com/gjsmith3rd)
