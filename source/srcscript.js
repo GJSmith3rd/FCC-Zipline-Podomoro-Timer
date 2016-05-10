@@ -16,28 +16,24 @@ $(document).ready(function () {
     $.getScript('//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
   }
 
-  /*
+ /*
   * Cloudinary jQuery/JS Dynamic Images
   */
 
   (function () {
 
-    var bG = 'http://res.cloudinary.com/mobilecreature/image/upload/f_auto/v1456547839/FreeCodeCamp/Ziplines/Pomodoro-Timer/IeZm7MT.jpg';
-
-    var cBg = 'IeZm7MT.jpg';
-
     $.cloudinary.config(
-      {
-        cloud_name: 'mobilecreature',
-        api_key: '222854649779236'
-      }
+      {}
     );
 
-    // $('.jumbotron').css('background-image', 'url("http://res.cloudinary.com/mobilecreature/image/upload/f_auto/v1456547839/FreeCodeCamp/Ziplines/Pomodoro-Timer/IeZm7MT.jpg")');
+    $.cloudinary.responsive({
+      type: 'fetch',
+      responsive_use_stoppoints: true
+    });
 
-    //$('.jumbotron').css('background-image', 'url(' + bG + ')');
-
-    //$('.jumbotron').attr('data-src', 'url(' + bG + ')');
+    $('#cld-img-id').load(function () {
+      $('#cld-parent-id').css('backgroundImage', 'url(' + $('#cld-img-id').attr('src') + ')');
+    });
 
   })();
 

@@ -49,7 +49,6 @@
     google_ad_client: "ca-pub-9672169971192466",
     enable_page_level_ads: true
   });
-
   </script>
 
   <script type="text/javascript" src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -119,7 +118,13 @@
 
   <div class="container-fluid">
 
-    <div class="jumbotron jumbotron-success text-center cld-responsive">
+    <div id="cld-parent-id" class="jumbotron jumbotron-success text-center cover">
+
+      <!-- Optionally specify image width stoppoints to reduce the maximum possible no of transforms per image -->
+      <!-- The appropriate image resolution will automatically be loaded -->
+      <img data-stoppoints="480,768,980,1200" data-src="http://res.cloudinary.com/mobilecreature/image/upload/f_auto,fl_lossy,w_auto,dpr_auto,q_80/v1456547839/FreeCodeCamp/Ziplines/Pomodoro-Timer/IeZm7MT.jpg"
+        class="cld-responsive cover-img" id="cld-img-id">
+
       <h1>Pomodoro Timer
         </h1>
 
