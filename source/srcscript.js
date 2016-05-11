@@ -2,19 +2,24 @@
 
 $(document).ready(function () {
 
-  var stopGoogleAds = true;
+    var stopGoogleAds = false;
 
-  //Test for local dev network
-  if (/^10.0.0/.test(location.hostname) && stopGoogleAds) {
-
-    // Remove Adsense from DOM
-    $('.adsense').remove();
-
-  } else {
-
-    // Load Adsense JavaScript
-    $.getScript('//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
-  }
+    switch (true) {
+        //Remove Google Analytics Codepen - Run Google Ads
+        case (/codepen/.test(location.hostname)):
+            $.getScript('//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+            break;
+        default:
+            //Remove Google Adsense and Google Github + Codepen Anaytics
+            $('.codepen').remove();
+            //Test for local dev network
+            if (stopGoogleAds) {
+                // Remove Adsense from DOM
+                $('.adsense').remove();
+            } else {
+                $.getScript('//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+            }
+    }
 
  /*
   * Cloudinary jQuery/JS Dynamic Images
